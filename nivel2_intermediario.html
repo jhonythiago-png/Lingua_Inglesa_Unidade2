@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>🔥 Nível 2 – Intermediário</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(160deg, #0f2027, #203a43, #2c5364);
+  min-height: 100vh; padding: 0 0 40px; color: #fff;
+}
+.back-bar { background: rgba(0,0,0,0.3); padding: 10px 16px; text-align: center; }
+.back-bar a { color: #ffd200; font-size: 0.85rem; font-weight: 700; text-decoration: none; }
+.header {
+  text-align: center; padding: 22px 16px 14px;
+  background: rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 18px;
+}
+.badge { font-size: 1.8rem; margin-bottom: 6px; }
+.level-tag {
+  display: inline-block; background: linear-gradient(90deg,#f7971e,#ffd200);
+  color: #333; font-size: 0.72rem; font-weight: 800;
+  padding: 3px 12px; border-radius: 20px; margin-bottom: 8px;
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.header h1 { font-size: 1.4rem; font-weight: 900; }
+.header p  { font-size: 0.82rem; opacity: 0.6; margin-top: 4px; }
+.wrap { padding: 0 14px; }
+.progress-wrap {
+  background: rgba(255,255,255,0.08); border-radius: 12px;
+  padding: 12px 16px; margin-bottom: 16px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.progress-wrap span { font-size: 0.82rem; opacity: 0.7; }
+.score-big { font-size: 1.5rem; font-weight: 900; color: #ffd200; }
+.card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px; padding: 18px; margin-bottom: 14px;
+}
+.q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.q-badge {
+  background: linear-gradient(135deg,#f7971e,#ffd200); color: #333;
+  font-weight: 900; font-size: 0.78rem; padding: 3px 10px; border-radius: 20px;
+}
+.q-type { font-size: 0.72rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.5px; }
+.q-text { font-size: 0.97rem; line-height: 1.6; margin-bottom: 14px; color: #e8e8ff; }
+.q-text em { color: #ffd200; font-style: normal; font-weight: 700; }
+.q-hint {
+  background: rgba(255,210,0,0.08); border: 1px solid rgba(255,210,0,0.2);
+  border-radius: 10px; padding: 9px 12px; margin-bottom: 12px;
+  font-size: 0.83rem; color: #ffd200; line-height: 1.5;
+}
+.q-hint strong { color: #ffe566; }
+.options { display: flex; flex-direction: column; gap: 9px; }
+.opt-btn {
+  background: rgba(255,255,255,0.07); border: 2px solid rgba(255,255,255,0.14);
+  border-radius: 11px; padding: 12px 14px;
+  font-size: 0.92rem; font-family: inherit; cursor: pointer;
+  text-align: left; color: #e8e8ff; transition: transform 0.1s;
+}
+.opt-btn:active { transform: scale(0.97); }
+.opt-btn.correct { background: rgba(74,222,128,0.2); border-color: #4ade80; }
+.opt-btn.wrong   { background: rgba(248,113,113,0.2); border-color: #f87171; }
+.opt-btn.disabled { pointer-events: none; }
+.blank-input {
+  background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 10px; padding: 11px 13px;
+  color: white; font-size: 0.95rem; font-family: inherit;
+  width: 100%; margin-bottom: 8px; outline: none;
+}
+.blank-input:focus { border-color: #ffd200; }
+.blank-input.correct-input { border-color: #4ade80; }
+.blank-input.wrong-input   { border-color: #f87171; }
+.check-btn {
+  background: linear-gradient(135deg,#f7971e,#ffd200); border: none;
+  border-radius: 10px; padding: 11px 20px;
+  font-size: 0.9rem; font-family: inherit; font-weight: 800;
+  color: #333; cursor: pointer; display: block; width: 100%;
+}
+.check-btn:disabled { opacity: 0.35; pointer-events: none; }
+.feedback {
+  display: none; margin-top: 10px; padding: 12px 14px;
+  border-radius: 10px; font-size: 0.88rem; line-height: 1.6;
+}
+.feedback.show { display: block; }
+.feedback.ok  { background: rgba(74,222,128,0.15); border: 1px solid #4ade80; color: #a7f3d0; }
+.feedback.nok { background: rgba(248,113,113,0.15); border: 1px solid #f87171; color: #fca5a5; }
+.feedback .fb-answer { font-weight: 800; display: block; margin-bottom: 4px; }
+.feedback .fb-tip { opacity: 0.85; font-size: 0.83rem; }
+.finish-btn {
+  display: block; width: 100%; padding: 16px;
+  background: linear-gradient(135deg,#f7971e,#ffd200);
+  color: #333; border: none; border-radius: 16px;
+  font-size: 1.1rem; font-family: inherit; font-weight: 900; cursor: pointer; margin-top: 6px;
+}
+.result-panel {
+  display: none; background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 20px; padding: 28px 20px; text-align: center; margin-top: 20px;
+}
+.result-panel.show { display: block; }
+.result-big   { font-size: 4rem; margin-bottom: 10px; }
+.result-msg   { font-size: 1.15rem; font-weight: 800; margin-bottom: 8px; }
+.result-score { font-size: 0.88rem; opacity: 0.65; margin-bottom: 20px; }
+.retry-btn {
+  background: linear-gradient(135deg,#a78bfa,#60a5fa); color: white;
+  border: none; border-radius: 14px; padding: 13px 28px;
+  font-size: 0.95rem; font-family: inherit; font-weight: 700; cursor: pointer;
+}
+
+.exam-header {
+  background: white; border: 2px solid #7c3aed;
+  border-radius: 16px; padding: 16px; margin: 12px 14px 16px;
+}
+.eh-title {
+  text-align: center; font-size: 0.95rem; font-weight: 900;
+  color: #7c3aed; margin-bottom: 14px;
+}
+.eh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.eh-field label {
+  display: block; font-size: 0.68rem; color: #888;
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;
+}
+.eh-field input {
+  width: 100%; border: none; border-bottom: 2px solid #7c3aed;
+  padding: 5px 2px; font-size: 0.9rem; font-family: inherit;
+  outline: none; background: transparent; color: #333;
+}
+.eh-nota {
+  border-bottom: 2px solid #7c3aed; padding: 5px 2px;
+  font-size: 0.85rem; color: #bbb; font-style: italic; min-height: 28px;
+}
+.print-btn-wrap { padding: 0 14px; margin-bottom: 12px; text-align: right; }
+.print-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 18px; background: transparent;
+  border: 1px solid rgba(124,58,237,0.35); border-radius: 20px;
+  font-size: 0.78rem; font-family: inherit; font-weight: 600;
+  color: rgba(124,58,237,0.6); cursor: pointer; transition: all 0.2s;
+}
+.print-btn:hover { border-color: #7c3aed; color: #7c3aed; background: rgba(124,58,237,0.05); }
+.credit { text-align: center; padding: 16px 14px 10px; font-size: 0.75rem; color: #aaa; }
+
+@media print {
+  /* ── ocultar elementos interativos ── */
+  .back-bar, .print-btn-wrap, .score-bar, .hud, .progress-wrap,
+  .finish-btn, .result-panel, #resultPanel, .gabarito-toggle,
+  .progress-footer, .nav-dots, .bg-glow { display: none !important; }
+
+  /* ── forçar fundo branco em TUDO ── */
+  html, body { background: white !important; color: #111 !important; }
+  body * {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: #111 !important;
+    border-color: #ccc !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* ── cabeçalho de avaliação ── */
+  .exam-header {
+    display: block !important;
+    border: 2px solid #444 !important;
+    background: white !important;
+  }
+  .eh-title { color: #333 !important; }
+  .eh-field label { color: #666 !important; }
+  .eh-field input {
+    border-bottom: 1.5px solid #444 !important;
+    color: #111 !important;
+    background: transparent !important;
+  }
+  .eh-nota { border-bottom: 1.5px solid #444 !important; color: #999 !important; }
+
+  /* ── título do quiz ── */
+  .header, .header * { background: white !important; color: #111 !important; }
+  .level-tag, .gem-tag, .q-badge, .q-num {
+    background: #eee !important;
+    color: #333 !important;
+    border: 1px solid #ccc !important;
+  }
+  .header h1, .header p, .badge, .crown, .stars { color: #111 !important; }
+
+  /* ── cards das questões ── */
+  .card {
+    background: white !important;
+    border: 1px solid #ccc !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    margin-bottom: 14px !important;
+  }
+  .q-text, .q-type, .q-pts, .q-text * { color: #222 !important; }
+  .q-hint {
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd !important;
+    color: #444 !important;
+  }
+  .q-hint strong { color: #333 !important; }
+
+  /* ── alternativas ── */
+  .opt-btn {
+    background: white !important;
+    border: 1.5px solid #bbb !important;
+    color: #222 !important;
+    margin-bottom: 5px !important;
+  }
+  .opt-btn.correct, .opt-btn.wrong {
+    background: white !important;
+    border-color: #bbb !important;
+    color: #222 !important;
+  }
+
+  /* ── feedback ── */
+  .feedback { display: none !important; }
+
+  /* ── campos de texto ── */
+  .blank-input {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1.5px solid #555 !important;
+    border-radius: 0 !important;
+    color: #111 !important;
+    width: 100% !important;
+  }
+
+  /* ── construtor de frases ── */
+  .word-pool { display: none !important; }
+  .sentence-box {
+    background: white !important;
+    border: 1px solid #bbb !important;
+    min-height: 36px !important;
+  }
+  .placed-chip { display: none !important; }
+
+  /* ── dica de seção ── */
+  .section-title, .section-sub { color: #222 !important; }
+  .section-icon { background: #eee !important; }
+
+  /* ── rodapé ── */
+  .credit { color: #888 !important; display: block !important; }
+
+  /* ── página ── */
+  @page { margin: 1.5cm; size: A4; }
+}
+
+</style>
+</head>
+<body>
+<div class="back-bar"><a href="resumo_conteudo.html">⬅️ Voltar ao Resumo para estudar</a></div>
+<div class="exam-header">
+  <div class="eh-title">📝 Preencha antes de começar</div>
+  <div class="eh-grid">
+    <div class="eh-field"><label>Nome</label><input type="text" id="f-nome" placeholder="Seu nome aqui"></div>
+    <div class="eh-field"><label>Data</label><input type="date" id="f-data"></div>
+    <div class="eh-field"><label>Turma</label><input type="text" id="f-turma" placeholder="Ex: 4º A"></div>
+    <div class="eh-field"><label>Nota</label><div class="eh-nota">Será preenchida</div></div>
+  </div>
+</div>
+<div class="print-btn-wrap"><button class="print-btn" onclick="window.print()">🖨️ Imprimir Avaliação</button></div>
+<div class="header">
+  <div class="badge">🛒🔥</div>
+  <div class="level-tag">Nível 2 — Intermediário</div>
+  <h1>At the Supermarket</h1>
+  <p>Unit 2 · Inglês para crianças</p>
+</div>
+<div class="wrap">
+<div class="progress-wrap">
+  <span>Pontuação 🏅</span>
+  <span class="score-big" id="scoreDisplay">0 / 9</span>
+</div>
+
+<!-- Q1 -->
+<div class="card" id="q1">
+  <div class="q-header"><span class="q-badge">Q1</span><span class="q-type">Complete a frase</span></div>
+  <div class="q-text">
+    Preencha o espaço em branco com <em>There is</em> ou <em>There are</em>:<br><br>
+    "_____ one pineapple on the table."<br>
+    <small style="opacity:0.55;">(Existe um abacaxi na mesa.)</small>
+  </div>
+  <div class="q-hint">💡 <strong>Dica:</strong> Conte os objetos — um ou mais de um?</div>
+  <input class="blank-input" id="inp-q1" placeholder="Digite sua resposta aqui">
+  <button class="check-btn" id="btn-q1">Verificar ✓</button>
+  <div class="feedback" id="fb-q1"></div>
+</div>
+
+<!-- Q2 -->
+<div class="card" id="q2">
+  <div class="q-header"><span class="q-badge">Q2</span><span class="q-type">Complete a frase</span></div>
+  <div class="q-text">
+    Preencha com <em>There is</em> ou <em>There are</em>:<br><br>
+    "_____ four carrots in the basket."<br>
+    <small style="opacity:0.55;">(Existem quatro cenouras na cesta.)</small>
+  </div>
+  <div class="q-hint">💡 <strong>Dica:</strong> Four = quatro. São um ou vários objetos?</div>
+  <input class="blank-input" id="inp-q2" placeholder="Digite sua resposta aqui">
+  <button class="check-btn" id="btn-q2">Verificar ✓</button>
+  <div class="feedback" id="fb-q2"></div>
+</div>
+
+<!-- Q3 -->
+<div class="card" id="q3">
+  <div class="q-header"><span class="q-badge">Q3</span><span class="q-type">Escolha correta</span></div>
+  <div class="q-text">Qual das opções está <em>CORRETA</em> em inglês?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q3" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Milk = leite, e leite fica na seção DAIRY (laticínios), não na padaria."
+      data-tip="🥛 Sacada: DAIRY = produtos que vêm do leite. Manteiga, queijo e iogurte também ficam lá!">
+      🍞 Milk belongs in the bakery section.
+    </button>
+    <button class="opt-btn" data-q="q3" data-correct="true"
+      data-ok="✅ Perfeito! Leite (milk) fica na seção DAIRY = laticínios! 🥛"
+      data-nok="" data-tip="">
+      🥛 Milk belongs in the dairy section.
+    </button>
+    <button class="opt-btn" data-q="q3" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! A seção Drinks tem sucos, água e refrigerantes. Leite fica no DAIRY."
+      data-tip="🧃 Sacada: Drinks = bebidas prontas. Leite puro vai para o DAIRY porque é laticínio!">
+      🧃 Milk belongs in the drinks section.
+    </button>
+  </div>
+  <div class="feedback" id="fb-q3"></div>
+</div>
+
+<!-- Q4 -->
+<div class="card" id="q4">
+  <div class="q-header"><span class="q-badge">Q4</span><span class="q-type">Diálogo</span></div>
+  <div class="q-text">Marina pergunta: <em>"Do you like carrots?"</em><br>
+    João quer responder que <strong>NÃO gosta</strong>. O que ele diz?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q4" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Yes, I like = Sim, eu gosto. Mas João NÃO gosta de cenoura!"
+      data-tip="💡 Sacada: Yes = sim, No = não. Para negar, use: No, I don't like.">
+      Yes, I like carrots.
+    </button>
+    <button class="opt-btn" data-q="q4" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Do you like...? é uma PERGUNTA, não uma resposta."
+      data-tip="💡 Sacada: Quando alguém pergunta Do you like?, a resposta começa com Yes ou No!">
+      Do you like carrots?
+    </button>
+    <button class="opt-btn" data-q="q4" data-correct="true"
+      data-ok="✅ Correto! No, I don't like = Não, eu não gosto. 🥕✖️"
+      data-nok="" data-tip="">
+      No, I don't like carrots.
+    </button>
+  </div>
+  <div class="feedback" id="fb-q4"></div>
+</div>
+
+<!-- Q5 -->
+<div class="card" id="q5">
+  <div class="q-header"><span class="q-badge">Q5</span><span class="q-type">Comidas saudáveis</span></div>
+  <div class="q-text">Qual lista tem apenas comidas <em>HEALTHY</em> (saudáveis)?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q5" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Chocolate, chips e pizza são UNHEALTHY — têm muito açúcar e gordura."
+      data-tip="🍫 Sacada: Unhealthy food = comida que deve ser comida só de vez em quando, com moderação!">
+      🍫 Chocolate, chips, pizza
+    </button>
+    <button class="opt-btn" data-q="q5" data-correct="true"
+      data-ok="✅ Isso! Frutas e legumes são HEALTHY food — fazem bem ao corpo! 🌟"
+      data-nok="" data-tip="">
+      🥦 Carrot, apple, mango
+    </button>
+    <button class="opt-btn" data-q="q5" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Sorvete, bala e soda são UNHEALTHY. Têm muito açúcar!"
+      data-tip="🍦 Sacada: Comida da natureza (frutas, legumes) = healthy. Industrializada com açúcar = unhealthy!">
+      🍦 Ice cream, candy, soda
+    </button>
+  </div>
+  <div class="feedback" id="fb-q5"></div>
+</div>
+
+<!-- Q6 -->
+<div class="card" id="q6">
+  <div class="q-header"><span class="q-badge">Q6</span><span class="q-type">Números em inglês</span></div>
+  <div class="q-text">Como se escreve o número <em>17</em> em inglês?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q6" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Fifteen = 15, não 17. São números parecidos mas diferentes!"
+      data-tip="🔢 Sacada: 13=thirteen, 14=fourteen, 15=fifteen, 16=sixteen, 17=seventeen, 18=eighteen...">
+      Fifteen
+    </button>
+    <button class="opt-btn" data-q="q6" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Seventy = 70 — um número muito maior! Cuidado com a pronúncia."
+      data-tip="🔢 Sacada: Números terminados em -teen (thirteen, fourteen...) vão de 13 a 19!">
+      Seventy
+    </button>
+    <button class="opt-btn" data-q="q6" data-correct="true"
+      data-ok="✅ Isso mesmo! 17 = Seventeen! 🎯"
+      data-nok="" data-tip="">
+      Seventeen
+    </button>
+    <button class="opt-btn" data-q="q6" data-correct="false"
+      data-ok=""
+      data-nok="❌ Quase! Eighteen = 18, não 17. Faltou um número!"
+      data-tip="🔢 Sacada: Seven = 7, então se-VEN-teen = 17. Eight = 8, então eigh-TEEN = 18!">
+      Eighteen
+    </button>
+  </div>
+  <div class="feedback" id="fb-q6"></div>
+</div>
+
+<!-- Q7 -->
+<div class="card" id="q7">
+  <div class="q-header"><span class="q-badge">Q7</span><span class="q-type">Matemática + inglês</span></div>
+  <div class="q-text">
+    Quanto é <em>25 + 25</em>? Escreva o resultado em inglês.<br>
+    <small style="opacity:0.55;">(Escreva o número por extenso em inglês)</small>
+  </div>
+  <div class="q-hint">💡 <strong>Dica:</strong> 20 = twenty · 30 = thirty · 40 = forty · 50 = fifty</div>
+  <input class="blank-input" id="inp-q7" placeholder="Digite sua resposta aqui">
+  <button class="check-btn" id="btn-q7">Verificar ✓</button>
+  <div class="feedback" id="fb-q7"></div>
+</div>
+
+<!-- Q8 -->
+<div class="card" id="q8">
+  <div class="q-header"><span class="q-badge">Q8</span><span class="q-type">Cores dos alimentos</span></div>
+  <div class="q-text">A comida <em>RED</em> (vermelha) faz o quê para o seu corpo?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q8" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Curar cortes é a função da comida YELLOW (amarela), não da vermelha."
+      data-tip="🌈 Sacada: Cada cor tem seu superpoder! Yellow = cura cortes. Red = coração forte!">
+      💛 Cura cortes
+    </button>
+    <button class="opt-btn" data-q="q8" data-correct="true"
+      data-ok="✅ Exato! RED food makes your heart stronger = comida vermelha deixa o coração mais forte! ❤️"
+      data-nok="" data-tip="">
+      ❤️ Deixa o coração mais forte
+    </button>
+    <button class="opt-btn" data-q="q8" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Dar energia é o superpoder da comida BROWN (marrom), não da vermelha."
+      data-tip="🌈 Sacada: Brown food gives your body energy = pão, arroz e castanhas dão energia!">
+      🟤 Dá energia ao corpo
+    </button>
+    <button class="opt-btn" data-q="q8" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Combater germes é a função da comida GREEN (verde), não da vermelha."
+      data-tip="🌈 Sacada: Green food fights germs = brócolis, pepino e ervilhas combatem doenças!">
+      💚 Combate germes
+    </button>
+  </div>
+  <div class="feedback" id="fb-q8"></div>
+</div>
+
+<!-- Q9 -->
+<div class="card" id="q9">
+  <div class="q-header"><span class="q-badge">Q9</span><span class="q-type">Seções do supermercado</span></div>
+  <div class="q-text">Onde você encontra pão (bread) no supermercado?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q9" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Dairy = laticínios — lá ficam leite, queijo, manteiga e iogurte."
+      data-tip="🥛 Sacada: DAIRY vem da palavra em inglês para leite (dairy = produtos lácteos)!">
+      🥛 Dairy
+    </button>
+    <button class="opt-btn" data-q="q9" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Frozen food = comida congelada, fica no freezer do supermercado."
+      data-tip="❄️ Sacada: Frozen = congelado. Sorvete, legumes congelados e pizzas congeladas ficam lá!">
+      🧊 Frozen food
+    </button>
+    <button class="opt-btn" data-q="q9" data-correct="true"
+      data-ok="✅ Perfeito! BAKERY = padaria! É onde fica o pão, bolo e biscoitos. 🍞🎂"
+      data-nok="" data-tip="">
+      🥖 Bakery
+    </button>
+    <button class="opt-btn" data-q="q9" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Canned = enlatados — são alimentos dentro de lata, como milho e atum."
+      data-tip="🥫 Sacada: Canned vem de can = lata. Tudo que fica numa lata fechada é canned food!">
+      🥫 Canned
+    </button>
+  </div>
+  <div class="feedback" id="fb-q9"></div>
+</div>
+
+<button class="finish-btn" id="finishBtn">Ver resultado 🏆</button>
+<div class="result-panel" id="resultPanel">
+  <div class="result-big" id="resultEmoji">🎉</div>
+  <div class="result-msg" id="resultMsg"></div>
+  <div class="result-score" id="resultScore"></div>
+  <button class="retry-btn" onclick="location.reload()">Tentar de novo 🔄</button>
+</div>
+</div>
+
+<script>
+var score = 0;
+var answered = {};
+var total = 9;
+
+var blankCfg = {
+  'q1': {
+    accepts: ['there is', "there's"],
+    ok:  '✅ THERE IS porque é só UM abacaxi! Um objeto = There IS. 🍍',
+    nok: '❌ A resposta é: There is.',
+    tip: '💡 Sacada: ONE (um) → THERE IS · TWO or more (dois ou mais) → THERE ARE. Sempre conte os objetos primeiro!'
+  },
+  'q2': {
+    accepts: ['there are'],
+    ok:  '✅ THERE ARE porque são QUATRO cenouras! Mais de um = There ARE. 🥕🥕🥕🥕',
+    nok: '❌ A resposta é: There are.',
+    tip: '💡 Sacada: Four = quatro → mais de um objeto → usa THERE ARE. Se fosse só uma cenoura, seria There IS!'
+  },
+  'q7': {
+    accepts: ['fifty', '50'],
+    ok:  '✅ 25 + 25 = 50 = FIFTY! 🎊',
+    nok: '❌ A resposta é: Fifty (50).',
+    tip: '🔢 Sacada: As dezenas em inglês: 20=twenty · 30=thirty · 40=forty · 50=fifty. 25+25=50!'
+  }
+};
+
+function showFeedback(qid, isCorrect, okMsg, nokMsg, tipMsg) {
+  var fb = document.getElementById('fb-' + qid);
+  if (isCorrect) {
+    fb.innerHTML = '<span class="fb-answer">' + okMsg + '</span>';
+    fb.className = 'feedback show ok';
+  } else {
+    fb.innerHTML = '<span class="fb-answer">' + nokMsg + '</span>' +
+                   (tipMsg ? '<span class="fb-tip">' + tipMsg + '</span>' : '');
+    fb.className = 'feedback show nok';
+  }
+}
+
+document.querySelectorAll('.opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var qid = btn.dataset.q;
+    if (answered[qid]) return;
+    answered[qid] = true;
+    var correct = btn.dataset.correct === 'true';
+    document.getElementById(qid).querySelectorAll('.opt-btn').forEach(function(b) { b.classList.add('disabled'); });
+    if (correct) {
+      btn.classList.add('correct');
+      score++;
+      document.getElementById('scoreDisplay').textContent = score + ' / ' + total;
+      showFeedback(qid, true, btn.dataset.ok, '', '');
+    } else {
+      btn.classList.add('wrong');
+      showFeedback(qid, false, '', btn.dataset.nok, btn.dataset.tip);
+    }
+  });
+});
+
+['q1','q2','q7'].forEach(function(qid) {
+  var btn = document.getElementById('btn-' + qid);
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    if (answered[qid]) return;
+    answered[qid] = true;
+    btn.disabled = true;
+    var inp = document.getElementById('inp-' + qid);
+    var val = inp.value.trim().toLowerCase();
+    var cfg = blankCfg[qid];
+    if (cfg.accepts.indexOf(val) !== -1) {
+      inp.classList.add('correct-input');
+      score++;
+      document.getElementById('scoreDisplay').textContent = score + ' / ' + total;
+      showFeedback(qid, true, cfg.ok, '', '');
+    } else {
+      inp.classList.add('wrong-input');
+      showFeedback(qid, false, '', cfg.nok, cfg.tip);
+    }
+  });
+});
+
+document.getElementById('finishBtn').addEventListener('click', function() {
+  var panel = document.getElementById('resultPanel');
+  panel.classList.add('show');
+  var pct = score / total;
+  var emoji, msg;
+  if (pct === 1)        { emoji = '🏆'; msg = 'Arrasou! Nota 100! Você dominou esse nível! 💥'; }
+  else if (pct >= 0.78) { emoji = '🎉'; msg = 'Muito bem! Quase expert no supermarket! 🛒'; }
+  else if (pct >= 0.55) { emoji = '💪'; msg = 'Bom! Revise as dicas das questões e tente de novo!'; }
+  else                   { emoji = '📖'; msg = 'Estude o resumo mais um pouco e vai arrasar! 💛'; }
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultScore').textContent = 'Acertos: ' + score + ' de ' + total;
+  panel.scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+
+<div class="credit">Desenvolvido por <strong>Jhony Beraldo</strong></div>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Unit 2 – At the Supermarket</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #f8f5ff;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* ── Hero ── */
+.hero {
+  background: linear-gradient(145deg, #7c3aed, #a855f7, #ec4899);
+  padding: 40px 20px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 70% 30%, rgba(255,255,255,0.12), transparent 60%);
+  pointer-events: none;
+}
+.hero-emoji { font-size: 3.5rem; display: block; margin-bottom: 10px; }
+.hero h1   { font-size: 1.7rem; font-weight: 900; color: white; line-height: 1.2; }
+.hero h2   { font-size: 1rem; color: rgba(255,255,255,0.8); font-weight: 400; margin-top: 6px; }
+.hero-pill {
+  display: inline-block;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.35);
+  color: white; font-size: 0.75rem; font-weight: 700;
+  padding: 5px 16px; border-radius: 20px; margin-top: 14px;
+  letter-spacing: 0.8px;
+}
+
+/* ── Content ── */
+.wrap { padding: 24px 16px 0; max-width: 480px; margin: 0 auto; }
+
+.section-label {
+  font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+  letter-spacing: 1.5px; color: #a78bfa; margin-bottom: 12px;
+  padding-left: 2px;
+}
+
+/* ── Cards ── */
+.card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 16px rgba(124,58,237,0.08);
+  border: 1.5px solid #ede9f5;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.18s, box-shadow 0.18s;
+  position: relative;
+  overflow: hidden;
+}
+.card:active { transform: scale(0.98); }
+.card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 5px; height: 100%;
+  border-radius: 20px 0 0 20px;
+}
+.card.study::before  { background: linear-gradient(180deg, #7c3aed, #a855f7); }
+.card.lvl1::before   { background: linear-gradient(180deg, #ff6fb7, #ffb347); }
+.card.lvl2::before   { background: linear-gradient(180deg, #f7971e, #ffd200); }
+.card.lvl3::before   { background: linear-gradient(180deg, #8250ff, #00c8b4); }
+
+.card-top {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; gap: 12px; margin-bottom: 8px;
+}
+.card-icon {
+  width: 46px; height: 46px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem; flex-shrink: 0;
+}
+.card.study  .card-icon { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+.card.lvl1   .card-icon { background: linear-gradient(135deg, #ff6fb7, #ffb347); }
+.card.lvl2   .card-icon { background: linear-gradient(135deg, #f7971e, #ffd200); }
+.card.lvl3   .card-icon { background: linear-gradient(135deg, #8250ff, #00c8b4); }
+
+.card-arrow {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #f5f3ff; display: flex; align-items: center;
+  justify-content: center; font-size: 0.9rem; flex-shrink: 0; margin-top: 4px;
+}
+.card-title {
+  font-size: 1.05rem; font-weight: 800; color: #1e1b2e; margin-bottom: 4px;
+}
+.card-sub   { font-size: 0.82rem; color: #9188a8; line-height: 1.4; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+.tag {
+  font-size: 0.7rem; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; background: #f5f3ff; color: #7c3aed;
+}
+.tag.pink   { background: #fdf2f8; color: #ec4899; }
+.tag.amber  { background: #fffbeb; color: #d97706; }
+.tag.teal   { background: #f0fdfa; color: #0d9488; }
+
+/* ── How to use ── */
+.steps {
+  background: white; border-radius: 18px; padding: 18px 16px;
+  border: 1.5px solid #ede9f5;
+  box-shadow: 0 2px 12px rgba(124,58,237,0.06);
+  margin-bottom: 14px;
+}
+.steps-title {
+  font-size: 0.85rem; font-weight: 800; color: #1e1b2e; margin-bottom: 14px;
+}
+.step {
+  display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px;
+}
+.step:last-child { margin-bottom: 0; }
+.step-num {
+  width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  color: white; font-size: 0.78rem; font-weight: 900;
+  display: flex; align-items: center; justify-content: center; margin-top: 1px;
+}
+.step-text { font-size: 0.87rem; color: #4b4569; line-height: 1.5; }
+.step-text strong { color: #7c3aed; }
+
+/* ── Credit ── */
+.credit {
+  text-align: center; padding: 20px 14px 8px;
+  font-size: 0.75rem; color: #bbb;
+}
+.credit strong { color: #a78bfa; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <span class="hero-emoji">🛒</span>
+  <h1>At the Supermarket</h1>
+  <h2>Unit 2 · Material de Estudos</h2>
+  <div class="hero-pill">📚 Inglês para crianças</div>
+</div>
+
+<div class="wrap">
+
+  <!-- Como usar -->
+  <div class="steps">
+    <div class="steps-title">📌 Como usar este material</div>
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-text">Comece pelo <strong>Resumo</strong> — leia todo o conteúdo antes de fazer qualquer avaliação.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-text">Faça a avaliação <strong>Nível 1</strong> para testar o básico.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-text">Avance para o <strong>Nível 2</strong> e depois o <strong>Nível 3</strong> com gabarito completo.</div>
+    </div>
+  </div>
+
+  <!-- Resumo -->
+  <div class="section-label">📖 Comece aqui</div>
+
+  <a class="card study" href="resumo_conteudo.html">
+    <div class="card-top">
+      <div class="card-icon">📚</div>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="card-title">Resumo do Conteúdo</div>
+    <div class="card-sub">Estude todo o vocabulário, regras e exemplos da Unit 2 antes de fazer as avaliações.</div>
+    <div class="tags">
+      <span class="tag">Vocabulário</span>
+      <span class="tag">There is / There are</span>
+      <span class="tag">I like / don't like</span>
+      <span class="tag">Números</span>
+      <span class="tag">Comidas saudáveis</span>
+    </div>
+  </a>
+
+  <!-- Avaliações -->
+  <div class="section-label" style="margin-top:8px;">📝 Avaliações</div>
+
+  <a class="card lvl1" href="nivel1_basico.html">
+    <div class="card-top">
+      <div class="card-icon">⭐</div>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="card-title">Nível 1 — Básico</div>
+    <div class="card-sub">8 questões de múltipla escolha com emojis e feedback imediato.</div>
+    <div class="tags">
+      <span class="tag pink">Fácil</span>
+      <span class="tag">Vocabulário</span>
+      <span class="tag">Saudável / Unhealthy</span>
+      <span class="tag">There is / are</span>
+    </div>
+  </a>
+
+  <a class="card lvl2" href="nivel2_intermediario.html">
+    <div class="card-top">
+      <div class="card-icon">🔥</div>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="card-title">Nível 2 — Intermediário</div>
+    <div class="card-sub">9 questões com múltipla escolha e campos para digitar. Mais desafiador!</div>
+    <div class="tags">
+      <span class="tag amber">Médio</span>
+      <span class="tag">Seções do mercado</span>
+      <span class="tag">Diálogos</span>
+      <span class="tag">Números</span>
+    </div>
+  </a>
+
+  <a class="card lvl3" href="nivel3_avancado.html">
+    <div class="card-top">
+      <div class="card-icon">💎</div>
+      <div class="card-arrow">→</div>
+    </div>
+    <div class="card-title">Nível 3 — Avançado</div>
+    <div class="card-sub">11 questões: montar frases, completar diálogos e produção escrita. Inclui gabarito completo!</div>
+    <div class="tags">
+      <span class="tag teal">Difícil</span>
+      <span class="tag">Monte a frase</span>
+      <span class="tag">Tradução</span>
+      <span class="tag">Gabarito</span>
+    </div>
+  </a>
+
+</div>
+
+<div class="credit">Desenvolvido por <strong>Jhony Beraldo</strong></div>
+
+</body>
+</html>
