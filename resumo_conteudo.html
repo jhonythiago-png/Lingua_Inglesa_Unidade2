@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>📚 Estudar – Unit 2</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: #fdf6ff;
+  color: #2d2d3a;
+  min-height: 100vh;
+  padding-bottom: 40px;
+}
+
+/* ── Hero ── */
+.hero {
+  background: linear-gradient(145deg, #7c3aed, #a855f7, #ec4899);
+  padding: 32px 20px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Ccircle fill='rgba(255,255,255,0.05)' cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E") repeat;
+}
+.hero-emoji { font-size: 3rem; display: block; margin-bottom: 10px; position: relative; }
+.hero h1 { font-size: 1.7rem; font-weight: 900; color: white; line-height: 1.2; position: relative; }
+.hero h2 { font-size: 1rem; color: rgba(255,255,255,0.8); font-weight: 400; margin-top: 6px; position: relative; }
+.hero-pill {
+  display: inline-block;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.35);
+  color: white;
+  font-size: 0.72rem; font-weight: 700;
+  padding: 4px 14px; border-radius: 20px;
+  margin-top: 12px; position: relative;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* ── Nav dots ── */
+.nav-dots {
+  display: flex; justify-content: center; gap: 8px;
+  padding: 14px 0 6px;
+  position: sticky; top: 0; z-index: 10;
+  background: #fdf6ff;
+  border-bottom: 1px solid #ede9f5;
+  flex-wrap: wrap;
+  padding-left: 12px; padding-right: 12px;
+}
+.nav-dot {
+  background: none; border: 2px solid #c4b5fd;
+  color: #7c3aed; font-size: 0.72rem; font-weight: 700;
+  padding: 5px 12px; border-radius: 20px; cursor: pointer;
+  transition: all 0.2s; white-space: nowrap;
+}
+.nav-dot.active, .nav-dot:active {
+  background: #7c3aed; color: white; border-color: #7c3aed;
+}
+
+/* ── Sections ── */
+.section {
+  padding: 24px 16px 8px;
+}
+.section-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px;
+}
+.section-icon {
+  width: 44px; height: 44px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+}
+.section-icon.purple { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+.section-icon.pink   { background: linear-gradient(135deg, #ec4899, #f97316); }
+.section-icon.teal   { background: linear-gradient(135deg, #0d9488, #06b6d4); }
+.section-icon.amber  { background: linear-gradient(135deg, #d97706, #f59e0b); }
+.section-icon.rose   { background: linear-gradient(135deg, #e11d48, #f43f5e); }
+.section-icon.green  { background: linear-gradient(135deg, #16a34a, #22c55e); }
+
+.section-title { font-size: 1.1rem; font-weight: 800; color: #1e1b2e; line-height: 1.2; }
+.section-sub   { font-size: 0.75rem; color: #9188a8; margin-top: 2px; }
+
+/* ── Cards ── */
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 12px rgba(124,58,237,0.07);
+  border: 1px solid #ede9f5;
+}
+
+/* vocab grid */
+.vocab-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 8px; margin-bottom: 4px;
+}
+.vocab-item {
+  background: #faf8ff;
+  border: 1.5px solid #ede9f5;
+  border-radius: 12px; padding: 10px 12px;
+  display: flex; flex-direction: column; gap: 2px;
+  transition: transform 0.15s;
+}
+.vocab-item:active { transform: scale(0.97); }
+.vocab-emoji { font-size: 1.6rem; line-height: 1; }
+.vocab-en { font-size: 0.92rem; font-weight: 700; color: #7c3aed; }
+.vocab-pt { font-size: 0.78rem; color: #6b7280; }
+
+/* tip box */
+.tip {
+  background: linear-gradient(135deg, #f5f3ff, #fdf2f8);
+  border-left: 4px solid #a855f7;
+  border-radius: 0 12px 12px 0;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  font-size: 0.88rem; line-height: 1.6;
+}
+.tip strong { color: #7c3aed; }
+.tip .tip-title { font-size: 0.7rem; font-weight: 700; color: #a855f7; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+
+/* rule box */
+.rule-box {
+  background: white;
+  border: 2px solid #7c3aed;
+  border-radius: 14px; padding: 14px;
+  margin-bottom: 12px;
+}
+.rule-title { font-size: 0.7rem; font-weight: 700; color: #7c3aed; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.rule-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 10px; padding-bottom: 10px;
+  border-bottom: 1px dashed #ede9f5;
+}
+.rule-row:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.rule-tag {
+  background: #7c3aed; color: white;
+  font-size: 0.78rem; font-weight: 800;
+  padding: 3px 10px; border-radius: 6px;
+  white-space: nowrap; flex-shrink: 0; margin-top: 2px;
+}
+.rule-tag.pink  { background: #ec4899; }
+.rule-tag.teal  { background: #0d9488; }
+.rule-tag.amber { background: #d97706; }
+.rule-tag.red   { background: #dc2626; }
+.rule-text { font-size: 0.88rem; line-height: 1.55; }
+.rule-text em { font-style: italic; color: #7c3aed; font-weight: 600; }
+.rule-text small { display: block; color: #9ca3af; font-size: 0.78rem; margin-top: 2px; }
+
+/* example dialogue */
+.dialogue {
+  background: #f8f7ff;
+  border-radius: 14px; padding: 14px; margin-bottom: 12px;
+}
+.dialogue-title { font-size: 0.7rem; font-weight: 700; color: #9188a8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+.bubble-row { display: flex; gap: 8px; margin-bottom: 10px; align-items: flex-start; }
+.bubble-row.right { flex-direction: row-reverse; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+.avatar.a { background: #ede9fe; }
+.avatar.b { background: #fce7f3; }
+.bubble {
+  background: white; border: 1.5px solid #ede9f5;
+  border-radius: 14px; padding: 9px 12px;
+  font-size: 0.88rem; line-height: 1.5; max-width: 80%;
+}
+.bubble.right { background: #7c3aed; color: white; border-color: #7c3aed; }
+.bubble .translation { font-size: 0.75rem; color: #9ca3af; margin-top: 3px; font-style: italic; }
+.bubble.right .translation { color: rgba(255,255,255,0.7); }
+
+/* sections of supermarket */
+.sections-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sec-card {
+  background: white; border: 1.5px solid #ede9f5;
+  border-radius: 12px; padding: 11px 10px; text-align: center;
+}
+.sec-card .sec-emoji { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+.sec-card .sec-name { font-size: 0.78rem; font-weight: 800; color: #7c3aed; }
+.sec-card .sec-pt   { font-size: 0.7rem; color: #9ca3af; margin-top: 1px; }
+.sec-card .sec-ex   { font-size: 0.68rem; color: #b0a8c8; margin-top: 3px; font-style: italic; }
+
+/* healthy/unhealthy */
+.health-split { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.health-col { border-radius: 14px; padding: 14px; }
+.health-col.healthy   { background: #f0fdf4; border: 2px solid #22c55e; }
+.health-col.unhealthy { background: #fff1f2; border: 2px solid #f43f5e; }
+.health-col-title { font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; }
+.health-col.healthy   .health-col-title { color: #16a34a; }
+.health-col.unhealthy .health-col-title { color: #e11d48; }
+.health-item { font-size: 0.82rem; margin-bottom: 5px; color: #374151; }
+
+/* food colors */
+.colors-list { display: flex; flex-direction: column; gap: 8px; }
+.color-row {
+  display: flex; align-items: center; gap: 10px;
+  background: white; border: 1.5px solid #ede9f5;
+  border-radius: 12px; padding: 11px 13px;
+}
+.color-dot { width: 18px; height: 18px; border-radius: 50%; flex-shrink: 0; }
+.color-name { font-size: 0.85rem; font-weight: 800; min-width: 58px; }
+.color-desc { font-size: 0.82rem; color: #6b7280; line-height: 1.4; }
+
+/* numbers */
+.numbers-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.num-chip {
+  background: #f5f3ff; border: 1.5px solid #c4b5fd;
+  border-radius: 10px; padding: 8px 4px; text-align: center;
+}
+.num-chip .n { font-size: 1rem; font-weight: 900; color: #7c3aed; }
+.num-chip .w { font-size: 0.58rem; color: #9188a8; margin-top: 2px; line-height: 1.3; }
+
+/* divider */
+.divider { height: 1px; background: #ede9f5; margin: 8px 16px 0; }
+
+/* progress bar at bottom */
+.progress-footer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 1px solid #ede9f5;
+  padding: 10px 16px;
+  display: flex; align-items: center; gap: 12px;
+  z-index: 20;
+}
+.pf-label { font-size: 0.75rem; font-weight: 700; color: #7c3aed; white-space: nowrap; }
+.pf-bar { flex: 1; background: #ede9f5; border-radius: 10px; height: 8px; overflow: hidden; }
+.pf-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #ec4899); border-radius: 10px; transition: width 0.5s; width: 0%; }
+.pf-pct { font-size: 0.75rem; font-weight: 700; color: #9188a8; }
+
+.print-btn-wrap { padding: 0 14px; margin: 8px 0 4px; text-align: right; }
+.print-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  padding: 8px 18px; background: transparent;
+  border: 1px solid rgba(124,58,237,0.35); border-radius: 20px;
+  font-size: 0.78rem; font-family: inherit; font-weight: 600;
+  color: rgba(124,58,237,0.6); cursor: pointer; transition: all 0.2s;
+}
+.print-btn:hover { border-color: #7c3aed; color: #7c3aed; background: rgba(124,58,237,0.05); }
+
+@media print {
+  /* ── ocultar tudo interativo e navegação ── */
+  .back-bar, .print-btn-wrap, .nav-dots, .progress-footer,
+  #fazer-provas-btn, .footer-credit,
+  .bg-glow { display: none !important; }
+
+  /* ── fundo branco em tudo ── */
+  html, body { background: white !important; color: #111 !important; }
+  body * {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: #111 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* ── hero header ── */
+  .hero {
+    background: #7c3aed !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    padding: 18px 16px !important;
+  }
+  .hero h1, .hero h2, .hero-pill, .hero-emoji { color: white !important; }
+  .hero-pill { background: rgba(255,255,255,0.25) !important; border-color: rgba(255,255,255,0.4) !important; }
+
+  /* ── seções ── */
+  .section { padding: 14px 16px 4px !important; }
+  .section-icon {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .section-title { color: #1e1b2e !important; }
+  .section-sub   { color: #666 !important; }
+
+  /* ── cards de vocabulário ── */
+  .card { border: 1px solid #ddd !important; break-inside: avoid !important;
+          page-break-inside: avoid !important; margin-bottom: 10px !important; }
+  .vocab-item { border: 1px solid #eee !important; break-inside: avoid !important; }
+  .vocab-en { color: #7c3aed !important; }
+  .vocab-pt { color: #666 !important; }
+
+  /* ── caixas de dica e regra ── */
+  .tip  { background: #f9f7ff !important; border-left: 4px solid #a855f7 !important; break-inside: avoid !important; }
+  .rule-box { border: 1.5px solid #7c3aed !important; break-inside: avoid !important; }
+  .rule-tag { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .rule-title { color: #7c3aed !important; }
+  .rule-text em { color: #7c3aed !important; }
+
+  /* ── diálogos ── */
+  .dialogue { background: #f8f7ff !important; break-inside: avoid !important; }
+  .bubble { border: 1px solid #ddd !important; }
+  .bubble.right { background: #7c3aed !important; color: white !important;
+    -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  /* ── seções do mercado ── */
+  .sec-card  { border: 1px solid #eee !important; }
+  .sec-name  { color: #7c3aed !important; }
+  .sections-grid { break-inside: avoid !important; }
+
+  /* ── healthy/unhealthy ── */
+  .health-split { break-inside: avoid !important; }
+  .health-col.healthy   { background: #f0fdf4 !important; border: 2px solid #22c55e !important;
+    -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .health-col.unhealthy { background: #fff1f2 !important; border: 2px solid #f43f5e !important;
+    -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .health-col.healthy   .health-col-title { color: #16a34a !important; }
+  .health-col.unhealthy .health-col-title { color: #e11d48 !important; }
+
+  /* ── cores dos alimentos ── */
+  .color-row { border: 1px solid #eee !important; break-inside: avoid !important; }
+  .color-dot { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .colors-list { break-inside: avoid !important; }
+
+  /* ── números ── */
+  .num-chip { border: 1px solid #c4b5fd !important; background: #f5f3ff !important;
+    -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .num-chip .n { color: #7c3aed !important; }
+  .numbers-grid { break-inside: avoid !important; }
+  /* ── quebras de página ── */
+  .section { break-before: auto !important; page-break-before: auto !important; }
+  .card, .rule-box, .dialogue, .tip, .health-split,
+  .colors-list, .sections-grid, .numbers-grid, .vocab-grid {
+    break-inside: avoid !important; page-break-inside: avoid !important;
+  }
+  .divider { display: none !important; }
+
+  /* ── crédito ── */
+  .credit { color: #888 !important; display: block !important; }
+
+  /* ── página A4 ── */
+  @page { margin: 1.5cm; size: A4; }
+}
+
+
+.top-nav {
+  background: #1e1b2e;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  position: sticky; top: 0; z-index: 50;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.top-nav a, .top-nav span {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+}
+.top-nav a:hover { color: #a78bfa; }
+.top-nav .nav-home {
+  background: rgba(124,58,237,0.2);
+  border: 1px solid rgba(124,58,237,0.35);
+  padding: 5px 12px; border-radius: 20px;
+  color: #a78bfa;
+}
+.top-nav .nav-title {
+  font-size: 0.78rem; opacity: 0.5;
+  overflow: hidden; text-overflow: ellipsis;
+  flex: 1; text-align: center;
+}
+
+.bottom-nav {
+  display: flex; gap: 10px;
+  padding: 0 14px; margin: 20px 0 10px;
+}
+.bottom-nav a {
+  flex: 1; padding: 13px 10px;
+  border-radius: 14px; text-decoration: none;
+  text-align: center; font-size: 0.85rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.btn-prev {
+  background: rgba(255,255,255,0.06);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7) !important;
+}
+.btn-next {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white !important;
+}
+.btn-home-only {
+  background: rgba(124,58,237,0.15);
+  border: 1.5px solid rgba(124,58,237,0.3);
+  color: #a78bfa !important;
+}
+
+@media print { .top-nav, .bottom-nav { display: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" class="nav-home">🏠 Início</a>
+  <span class="nav-title">📚 Resumo — Unit 2</span>
+  <div style="width:70px;"></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-emoji">🛒</span>
+  <h1>At the Supermarket</h1>
+  <h2>Guia de Estudos — Unit 2</h2>
+  <div class="hero-pill">📖 Leia tudo antes de fazer a prova!</div>
+</div>
+
+<!-- NAV -->
+<div class="nav-dots">
+  <button class="nav-dot active" data-target="sec1">🍎 Comidas</button>
+  <button class="nav-dot" data-target="sec2">🏪 Seções</button>
+  <button class="nav-dot" data-target="sec3">❤️ Saudável</button>
+  <button class="nav-dot" data-target="sec4">🗣️ Frases</button>
+  <button class="nav-dot" data-target="sec5">📦 Tem/Têm</button>
+  <button class="nav-dot" data-target="sec6">🔢 Números</button>
+</div>
+
+<div class="print-btn-wrap"><button class="print-btn" onclick="window.print()">🖨️ Imprimir Resumo</button></div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 1 — VOCABULÁRIO DE COMIDAS
+     ═══════════════════════════════════════ -->
+<div class="section" id="sec1">
+  <div class="section-header">
+    <div class="section-icon purple">🍎</div>
+    <div>
+      <div class="section-title">Vocabulário de Comidas</div>
+      <div class="section-sub">As palavras do supermercado em inglês</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">💡 Dica</div>
+    Cada nome de comida em inglês é uma palavra nova pra você aprender. Tenta falar em voz alta — fica mais fácil de lembrar!
+  </div>
+
+  <div class="card">
+    <div class="rule-title">🍓 FRUTAS — Fruits</div>
+    <div class="vocab-grid">
+      <div class="vocab-item"><span class="vocab-emoji">🍎</span><span class="vocab-en">Apple</span><span class="vocab-pt">Maçã</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍌</span><span class="vocab-en">Banana</span><span class="vocab-pt">Banana</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🥭</span><span class="vocab-en">Mango</span><span class="vocab-pt">Manga</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍍</span><span class="vocab-en">Pineapple</span><span class="vocab-pt">Abacaxi</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍇</span><span class="vocab-en">Grapes</span><span class="vocab-pt">Uva</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍋</span><span class="vocab-en">Lemon</span><span class="vocab-pt">Limão</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍓</span><span class="vocab-en">Strawberry</span><span class="vocab-pt">Morango</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍐</span><span class="vocab-en">Pear</span><span class="vocab-pt">Pera</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍈</span><span class="vocab-en">Melon</span><span class="vocab-pt">Melão</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🪴</span><span class="vocab-en">Papaya</span><span class="vocab-pt">Mamão</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="rule-title">🥦 LEGUMES E VEGETAIS — Vegetables</div>
+    <div class="vocab-grid">
+      <div class="vocab-item"><span class="vocab-emoji">🥕</span><span class="vocab-en">Carrot</span><span class="vocab-pt">Cenoura</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍅</span><span class="vocab-en">Tomato</span><span class="vocab-pt">Tomate</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🥦</span><span class="vocab-en">Broccoli</span><span class="vocab-pt">Brócolis</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🌽</span><span class="vocab-en">Corn</span><span class="vocab-pt">Milho</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🥒</span><span class="vocab-en">Cucumber</span><span class="vocab-pt">Pepino</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🎃</span><span class="vocab-en">Pumpkin</span><span class="vocab-pt">Abóbora</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🥬</span><span class="vocab-en">Cauliflower</span><span class="vocab-pt">Couve-flor</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🫛</span><span class="vocab-en">Peas</span><span class="vocab-pt">Ervilhas</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="rule-title">🧀 LATICÍNIOS E OUTROS — Dairy & More</div>
+    <div class="vocab-grid">
+      <div class="vocab-item"><span class="vocab-emoji">🥛</span><span class="vocab-en">Milk</span><span class="vocab-pt">Leite</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🧀</span><span class="vocab-en">Cheese</span><span class="vocab-pt">Queijo</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🧈</span><span class="vocab-en">Butter</span><span class="vocab-pt">Manteiga</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🫙</span><span class="vocab-en">Yogurt</span><span class="vocab-pt">Iogurte</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍳</span><span class="vocab-en">Eggs</span><span class="vocab-pt">Ovos</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍞</span><span class="vocab-en">Bread</span><span class="vocab-pt">Pão</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🥣</span><span class="vocab-en">Cereal</span><span class="vocab-pt">Cereal</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍚</span><span class="vocab-en">Rice</span><span class="vocab-pt">Arroz</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🫘</span><span class="vocab-en">Beans</span><span class="vocab-pt">Feijão</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🥜</span><span class="vocab-en">Nuts</span><span class="vocab-pt">Castanhas</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="rule-title">🍬 GULOSEIMAS — Treats</div>
+    <div class="vocab-grid">
+      <div class="vocab-item"><span class="vocab-emoji">🍫</span><span class="vocab-en">Chocolate</span><span class="vocab-pt">Chocolate</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍕</span><span class="vocab-en">Pizza</span><span class="vocab-pt">Pizza</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍬</span><span class="vocab-en">Candies</span><span class="vocab-pt">Balas/Doces</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🥤</span><span class="vocab-en">Soda</span><span class="vocab-pt">Refrigerante</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🍟</span><span class="vocab-en">Chips</span><span class="vocab-pt">Salgadinhos</span></div>
+      <div class="vocab-item"><span class="vocab-emoji">🧁</span><span class="vocab-en">Cookies</span><span class="vocab-pt">Biscoitos</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 2 — SEÇÕES DO SUPERMERCADO
+     ═══════════════════════════════════════ -->
+<div class="section" id="sec2">
+  <div class="section-header">
+    <div class="section-icon pink">🏪</div>
+    <div>
+      <div class="section-title">Seções do Supermercado</div>
+      <div class="section-sub">Onde fica cada coisa — Supermarket sections</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">💡 Dica</div>
+    No supermercado, cada tipo de produto fica em uma <strong>seção</strong> diferente. Em inglês, cada seção tem um nome especial!
+  </div>
+
+  <div class="card">
+    <div class="sections-grid">
+      <div class="sec-card">
+        <span class="sec-emoji">🥦</span>
+        <div class="sec-name">Fruit & Vegetables</div>
+        <div class="sec-pt">Frutas e Legumes</div>
+        <div class="sec-ex">maçã, cenoura...</div>
+      </div>
+      <div class="sec-card">
+        <span class="sec-emoji">🥛</span>
+        <div class="sec-name">Dairy</div>
+        <div class="sec-pt">Laticínios</div>
+        <div class="sec-ex">leite, queijo, manteiga</div>
+      </div>
+      <div class="sec-card">
+        <span class="sec-emoji">🥖</span>
+        <div class="sec-name">Bakery</div>
+        <div class="sec-pt">Padaria</div>
+        <div class="sec-ex">pão, bolo, biscoito</div>
+      </div>
+      <div class="sec-card">
+        <span class="sec-emoji">🧊</span>
+        <div class="sec-name">Frozen food</div>
+        <div class="sec-pt">Congelados</div>
+        <div class="sec-ex">sorvete, legumes congelados</div>
+      </div>
+      <div class="sec-card">
+        <span class="sec-emoji">🥫</span>
+        <div class="sec-name">Canned</div>
+        <div class="sec-pt">Enlatados</div>
+        <div class="sec-ex">milho em lata, atum...</div>
+      </div>
+      <div class="sec-card">
+        <span class="sec-emoji">🧃</span>
+        <div class="sec-name">Drinks</div>
+        <div class="sec-pt">Bebidas</div>
+        <div class="sec-ex">suco, água, refrigerante</div>
+      </div>
+      <div class="sec-card">
+        <span class="sec-emoji">🧼</span>
+        <div class="sec-name">Personal care</div>
+        <div class="sec-pt">Higiene pessoal</div>
+        <div class="sec-ex">sabonete, shampoo...</div>
+      </div>
+      <div class="sec-card">
+        <span class="sec-emoji">🧹</span>
+        <div class="sec-name">Cleaning supplies</div>
+        <div class="sec-pt">Limpeza</div>
+        <div class="sec-ex">detergente, vassoura...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">🧠 Macete</div>
+    <strong>Dairy</strong> = tudo que vem do leite 🐄 → leite, queijo, manteiga, iogurte<br>
+    <strong>Bakery</strong> = tudo que o padeiro faz 👨‍🍳 → pão, bolo, biscoito<br>
+    <strong>Frozen</strong> = está congelado ❄️ → no freezer do mercado
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 3 — COMIDAS SAUDÁVEIS
+     ═══════════════════════════════════════ -->
+<div class="section" id="sec3">
+  <div class="section-header">
+    <div class="section-icon teal">❤️</div>
+    <div>
+      <div class="section-title">Comidas Saudáveis</div>
+      <div class="section-sub">Healthy food × Unhealthy food</div>
+    </div>
+  </div>
+
+  <div class="health-split">
+    <div class="health-col healthy">
+      <div class="health-col-title">✅ HEALTHY<br><small>Saudável</small></div>
+      <div class="health-item">🍎 Fruits</div>
+      <div class="health-item">🥦 Vegetables</div>
+      <div class="health-item">🥛 Milk</div>
+      <div class="health-item">🍳 Eggs</div>
+      <div class="health-item">🫘 Beans</div>
+      <div class="health-item">🍚 Rice</div>
+      <div class="health-item">🥜 Nuts</div>
+      <div class="health-item">🫙 Yogurt</div>
+    </div>
+    <div class="health-col unhealthy">
+      <div class="health-col-title">❌ UNHEALTHY<br><small>Não saudável</small></div>
+      <div class="health-item">🍕 Pizza</div>
+      <div class="health-item">🍫 Chocolate</div>
+      <div class="health-item">🍬 Candies</div>
+      <div class="health-item">🥤 Soda</div>
+      <div class="health-item">🍟 Chips</div>
+      <div class="health-item">🍦 Ice cream</div>
+      <div class="health-item">🧁 Cookies</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">💡 Fácil de lembrar</div>
+    Comida que vem da natureza (frutas, legumes) = <strong>Healthy ✅</strong><br>
+    Comida com muito açúcar e gordura = <strong>Unhealthy ❌</strong>
+  </div>
+
+  <div class="card">
+    <div class="rule-title">🌈 AS CORES DOS ALIMENTOS — Food Colors</div>
+    <div class="colors-list">
+      <div class="color-row">
+        <div class="color-dot" style="background:#dc2626;"></div>
+        <div class="color-name" style="color:#dc2626;">RED 🍓</div>
+        <div class="color-desc">Deixa o coração mais forte<br><em>Makes your heart stronger</em></div>
+      </div>
+      <div class="color-row">
+        <div class="color-dot" style="background:#16a34a;"></div>
+        <div class="color-name" style="color:#16a34a;">GREEN 🥦</div>
+        <div class="color-desc">Combate os germes do corpo<br><em>Fights germs</em></div>
+      </div>
+      <div class="color-row">
+        <div class="color-dot" style="background:#d97706;"></div>
+        <div class="color-name" style="color:#d97706;">YELLOW 🍌</div>
+        <div class="color-desc">Ajuda a curar cortes<br><em>Helps your body heal cuts</em></div>
+      </div>
+      <div class="color-row">
+        <div class="color-dot" style="background:#ea580c;"></div>
+        <div class="color-name" style="color:#ea580c;">ORANGE 🥕</div>
+        <div class="color-desc">Melhora a visão dos olhos<br><em>Helps your eyes see better</em></div>
+      </div>
+      <div class="color-row">
+        <div class="color-dot" style="background:#92400e;"></div>
+        <div class="color-name" style="color:#92400e;">BROWN 🌾</div>
+        <div class="color-desc">Dá energia para o corpo<br><em>Gives your body energy</em></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 4 — FRASES: GOSTO/NÃO GOSTO
+     ═══════════════════════════════════════ -->
+<div class="section" id="sec4">
+  <div class="section-header">
+    <div class="section-icon amber">🗣️</div>
+    <div>
+      <div class="section-title">Dizer o que você gosta</div>
+      <div class="section-sub">I like / I don't like / Do you like?</div>
+    </div>
+  </div>
+
+  <div class="rule-box">
+    <div class="rule-title">📐 A REGRA</div>
+    <div class="rule-row">
+      <span class="rule-tag">EU GOSTO</span>
+      <div class="rule-text">
+        <em>I like + alimento.</em>
+        <small>Ex: I like mango. = Eu gosto de manga. 🥭</small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag red">NÃO GOSTO</span>
+      <div class="rule-text">
+        <em>I don't like + alimento.</em>
+        <small>Ex: I don't like soda. = Eu não gosto de refrigerante. 🥤</small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag teal">PERGUNTA</span>
+      <div class="rule-text">
+        <em>Do you like + alimento?</em>
+        <small>Ex: Do you like cheese? = Você gosta de queijo? 🧀</small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag" style="background:#16a34a;">SIM</span>
+      <div class="rule-text">
+        <em>Yes, I like it!</em>
+        <small>= Sim, eu gosto!</small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag" style="background:#dc2626;">NÃO</span>
+      <div class="rule-text">
+        <em>No, I don't like it.</em>
+        <small>= Não, eu não gosto.</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="dialogue">
+    <div class="dialogue-title">💬 Exemplo de diálogo</div>
+    <div class="bubble-row">
+      <div class="avatar a">👧</div>
+      <div class="bubble">
+        Do you like carrots, João?
+        <div class="translation">Você gosta de cenoura, João?</div>
+      </div>
+    </div>
+    <div class="bubble-row right">
+      <div class="avatar b">👦</div>
+      <div class="bubble right">
+        No, I don't like carrots. I like mangoes!
+        <div class="translation">Não, eu não gosto de cenoura. Eu gosto de manga!</div>
+      </div>
+    </div>
+    <div class="bubble-row">
+      <div class="avatar a">👧</div>
+      <div class="bubble">
+        What do you like to eat?
+        <div class="translation">O que você gosta de comer?</div>
+      </div>
+    </div>
+    <div class="bubble-row right">
+      <div class="avatar b">👦</div>
+      <div class="bubble right">
+        I like strawberries and pineapple!
+        <div class="translation">Eu gosto de morango e abacaxi!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">🧠 Macete</div>
+    Quer dizer NÃO GOSTO? Coloca o <strong>don't</strong> no meio:<br>
+    I like → I <strong>don't</strong> like<br><br>
+    Quer fazer uma PERGUNTA? Começa com <strong>Do you</strong>:<br>
+    You like → <strong>Do you</strong> like?
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 5 — THERE IS / THERE ARE
+     ═══════════════════════════════════════ -->
+<div class="section" id="sec5">
+  <div class="section-header">
+    <div class="section-icon rose">📦</div>
+    <div>
+      <div class="section-title">There is / There are</div>
+      <div class="section-sub">Como dizer que algo existe</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">💡 O que significa?</div>
+    <strong>There is</strong> e <strong>There are</strong> significam <strong>"tem / existe / há"</strong> em inglês. É a forma de dizer que algo está em algum lugar!
+  </div>
+
+  <div class="rule-box">
+    <div class="rule-title">📐 A REGRA PRINCIPAL</div>
+    <div class="rule-row">
+      <span class="rule-tag">THERE IS</span>
+      <div class="rule-text">
+        Usa quando tem <strong>só UM</strong> objeto.
+        <small>Ex: There is <em>one apple</em> on the table.<br>= Tem uma maçã na mesa. 🍎</small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag pink">THERE ARE</span>
+      <div class="rule-text">
+        Usa quando tem <strong>DOIS ou MAIS</strong> objetos.
+        <small>Ex: There are <em>three tomatoes</em> in the basket.<br>= Tem três tomates na cesta. 🍅🍅🍅</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="rule-title">📝 MAIS EXEMPLOS</div>
+    <div class="rule-row">
+      <span class="rule-tag" style="background:#7c3aed;font-size:0.7rem;">IS</span>
+      <div class="rule-text">
+        There is <em>one pineapple</em> here.<br>
+        <small>= Tem um abacaxi aqui. 🍍</small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag" style="background:#7c3aed;font-size:0.7rem;">IS</span>
+      <div class="rule-text">
+        There is <em>a box of cereal</em> on the shelf.<br>
+        <small>= Tem uma caixa de cereal na prateleira. 🥣</small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag pink;font-size:0.7rem;" style="background:#ec4899;font-size:0.7rem;">ARE</span>
+      <div class="rule-text">
+        There are <em>two boxes</em> of cereal.<br>
+        <small>= Tem duas caixas de cereal. 🥣🥣</small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag" style="background:#ec4899;font-size:0.7rem;">ARE</span>
+      <div class="rule-text">
+        There are <em>five lemons</em> in the bag.<br>
+        <small>= Tem cinco limões na sacola. 🍋🍋🍋🍋🍋</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">🧠 Super Macete!</div>
+    Conta os objetos na frase:<br><br>
+    🔢 <strong>1 objeto</strong> → <strong>THERE IS</strong> (é, está)<br>
+    🔢 <strong>2+ objetos</strong> → <strong>THERE ARE</strong> (são, estão)<br><br>
+    Igual em português:<br>
+    "Tem <strong>uma</strong> maçã" → There <strong>IS</strong><br>
+    "Tem <strong>três</strong> maçãs" → There <strong>ARE</strong>
+  </div>
+
+  <div class="dialogue">
+    <div class="dialogue-title">💬 No supermercado</div>
+    <div class="bubble-row">
+      <div class="avatar a">👩</div>
+      <div class="bubble">
+        What is on the table?
+        <div class="translation">O que tem na mesa?</div>
+      </div>
+    </div>
+    <div class="bubble-row right">
+      <div class="avatar b">👧</div>
+      <div class="bubble right">
+        There is one tomato and there are four carrots!
+        <div class="translation">Tem um tomate e tem quatro cenouras!</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════
+     SECTION 6 — NÚMEROS
+     ═══════════════════════════════════════ -->
+<div class="section" id="sec6">
+  <div class="section-header">
+    <div class="section-icon green">🔢</div>
+    <div>
+      <div class="section-title">Números em Inglês</div>
+      <div class="section-sub">Numbers 1 to 50</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="rule-title">1 – 20</div>
+    <div class="numbers-grid">
+      <div class="num-chip"><div class="n">1</div><div class="w">one</div></div>
+      <div class="num-chip"><div class="n">2</div><div class="w">two</div></div>
+      <div class="num-chip"><div class="n">3</div><div class="w">three</div></div>
+      <div class="num-chip"><div class="n">4</div><div class="w">four</div></div>
+      <div class="num-chip"><div class="n">5</div><div class="w">five</div></div>
+      <div class="num-chip"><div class="n">6</div><div class="w">six</div></div>
+      <div class="num-chip"><div class="n">7</div><div class="w">seven</div></div>
+      <div class="num-chip"><div class="n">8</div><div class="w">eight</div></div>
+      <div class="num-chip"><div class="n">9</div><div class="w">nine</div></div>
+      <div class="num-chip"><div class="n">10</div><div class="w">ten</div></div>
+      <div class="num-chip"><div class="n">11</div><div class="w">eleven</div></div>
+      <div class="num-chip"><div class="n">12</div><div class="w">twelve</div></div>
+      <div class="num-chip"><div class="n">13</div><div class="w">thirteen</div></div>
+      <div class="num-chip"><div class="n">14</div><div class="w">fourteen</div></div>
+      <div class="num-chip"><div class="n">15</div><div class="w">fifteen</div></div>
+      <div class="num-chip"><div class="n">16</div><div class="w">sixteen</div></div>
+      <div class="num-chip"><div class="n">17</div><div class="w">seven&shy;teen</div></div>
+      <div class="num-chip"><div class="n">18</div><div class="w">eighteen</div></div>
+      <div class="num-chip"><div class="n">19</div><div class="w">nineteen</div></div>
+      <div class="num-chip"><div class="n">20</div><div class="w">twenty</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="rule-title">DEZENAS — 10, 20, 30...</div>
+    <div class="numbers-grid" style="grid-template-columns:1fr 1fr 1fr;">
+      <div class="num-chip"><div class="n">10</div><div class="w">ten</div></div>
+      <div class="num-chip"><div class="n">20</div><div class="w">twenty</div></div>
+      <div class="num-chip"><div class="n">30</div><div class="w">thirty</div></div>
+      <div class="num-chip"><div class="n">40</div><div class="w">forty</div></div>
+      <div class="num-chip"><div class="n">50</div><div class="w">fifty</div></div>
+    </div>
+  </div>
+
+  <div class="rule-box">
+    <div class="rule-title">📐 COMO MONTAR NÚMEROS MAIORES</div>
+    <div class="rule-row">
+      <span class="rule-tag teal" style="font-size:0.7rem;">21–29</span>
+      <div class="rule-text">
+        twenty + <strong>-</strong> + número<br>
+        <small>21 = twenty-<em>one</em> &nbsp;|&nbsp; 25 = twenty-<em>five</em> &nbsp;|&nbsp; 29 = twenty-<em>nine</em></small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag teal" style="font-size:0.7rem;">31–39</span>
+      <div class="rule-text">
+        thirty + <strong>-</strong> + número<br>
+        <small>32 = thirty-<em>two</em> &nbsp;|&nbsp; 35 = thirty-<em>five</em></small>
+      </div>
+    </div>
+    <div class="rule-row">
+      <span class="rule-tag teal" style="font-size:0.7rem;">41–49</span>
+      <div class="rule-text">
+        forty + <strong>-</strong> + número<br>
+        <small>44 = forty-<em>four</em> &nbsp;|&nbsp; 49 = forty-<em>nine</em></small>
+      </div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <div class="tip-title">🧠 Macete dos números</div>
+    Do 13 ao 19, quase todos terminam em <strong>-teen</strong>:<br>
+    thir<strong>teen</strong>, four<strong>teen</strong>, fif<strong>teen</strong>...<br><br>
+    Do 20 em diante, você <strong>junta</strong> a dezena com a unidade:<br>
+    twenty + five = <strong>twenty-five</strong> (25)
+  </div>
+</div>
+
+<div class="bottom-nav" style="margin-top:10px;">
+  <a href="index.html" class="btn-home-only">🏠 Voltar ao Início</a>
+  <a href="nivel1_basico.html" class="btn-next">⭐ Nível 1 →</a>
+</div>
+
+<!-- padding so footer doesn't cover content -->
+<div style="height:60px;"></div>
+
+<!-- PROGRESS FOOTER -->
+<div class="progress-footer">
+  <div class="pf-label">📖 Progresso</div>
+  <div class="pf-bar"><div class="pf-fill" id="pfFill"></div></div>
+  <div class="pf-pct" id="pfPct">0%</div>
+</div>
+
+<script>
+// Nav scroll
+document.querySelectorAll('.nav-dot[data-target]').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.nav-dot').forEach(function(d) { d.classList.remove('active'); });
+    btn.classList.add('active');
+    var target = document.getElementById(btn.dataset.target);
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Progress bar based on scroll
+const sections = ['sec1','sec2','sec3','sec4','sec5','sec6'];
+function updateProgress() {
+  const scrolled = window.scrollY + window.innerHeight;
+  const total = document.body.scrollHeight;
+  const pct = Math.min(100, Math.round((scrolled / total) * 100));
+  document.getElementById('pfFill').style.width = pct + '%';
+  document.getElementById('pfPct').textContent = pct + '%';
+  // also highlight active nav
+  for (let i = sections.length - 1; i >= 0; i--) {
+    const el = document.getElementById(sections[i]);
+    if (el && window.scrollY >= el.offsetTop - 120) {
+      document.querySelectorAll('.nav-dot').forEach((d,idx) => {
+        d.classList.toggle('active', idx === i);
+      });
+      break;
+    }
+  }
+}
+window.addEventListener('scroll', updateProgress, { passive: true });
+updateProgress();
+</script>
+<div id="fazer-provas-btn" style="position:fixed;bottom:70px;right:16px;z-index:30;"><a href="nivel1_basico.html" style="display:block;background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;font-weight:800;font-size:0.85rem;padding:12px 18px;border-radius:50px;text-decoration:none;box-shadow:0 4px 15px rgba(124,58,237,0.4);">Fazer Provas ➡️</a></div>
+<div class="footer-credit" style="text-align:center;padding:8px 14px 16px;font-size:0.75rem;color:#aaa;">
+  Desenvolvido por <strong style="color:#7c3aed;">Jhony Beraldo</strong>
+</div>
+</body>
+</html>
+<!-- this is already closed, append nothing -->
