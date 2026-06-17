@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>🔥 Nível 2 – Intermediário</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(160deg, #0f2027, #203a43, #2c5364);
+    min-height: 100vh;
+    padding: 16px;
+    color: #fff;
+  }
+
+  .header {
+    text-align: center;
+    padding: 22px 16px 14px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .badge { font-size: 1.8rem; margin-bottom: 6px; }
+  .header h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
+  .header p { font-size: 0.85rem; opacity: 0.7; margin-top: 4px; }
+  .level-tag {
+    display: inline-block;
+    background: linear-gradient(90deg, #f7971e, #ffd200);
+    color: #333;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .progress-wrap {
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .progress-wrap span { font-size: 0.85rem; opacity: 0.8; }
+  .score-big { font-size: 1.5rem; font-weight: 800; color: #ffd200; }
+
+  .card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 18px;
+    backdrop-filter: blur(6px);
+    transition: transform 0.2s;
+  }
+  .card:active { transform: scale(0.99); }
+
+  .q-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .q-badge {
+    background: linear-gradient(135deg, #f7971e, #ffd200);
+    color: #333;
+    font-weight: 800;
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .q-type { font-size: 0.75rem; opacity: 0.55; letter-spacing: 0.5px; text-transform: uppercase; }
+  .q-text { font-size: 1rem; line-height: 1.55; margin-bottom: 16px; }
+  .q-text em { color: #ffd200; font-style: normal; font-weight: 600; }
+
+  /* Fill blank */
+  .blank-input {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 12px;
+    color: white;
+    font-size: 1rem;
+    font-family: inherit;
+    width: 100%;
+    margin-bottom: 10px;
+    outline: none;
+    transition: border 0.2s;
+  }
+  .blank-input:focus { border-color: #ffd200; }
+  .blank-input.correct-input { border-color: #4ade80; background: rgba(74,222,128,0.1); }
+  .blank-input.wrong-input   { border-color: #f87171; background: rgba(248,113,113,0.1); }
+
+  .check-btn {
+    background: linear-gradient(135deg, #f7971e, #ffd200);
+    border: none;
+    border-radius: 12px;
+    padding: 11px 24px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    font-weight: 700;
+    color: #333;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  .check-btn:active { transform: scale(0.96); }
+  .check-btn:disabled { opacity: 0.4; pointer-events: none; }
+
+  /* Multi choice */
+  .options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    padding: 13px 16px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    color: #fff;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .opt-btn:active { transform: scale(0.97); }
+  .opt-btn.correct { background: rgba(74,222,128,0.2); border-color: #4ade80; }
+  .opt-btn.wrong   { background: rgba(248,113,113,0.2); border-color: #f87171; }
+  .opt-btn.disabled { pointer-events: none; }
+
+  .feedback {
+    display: none;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+  .feedback.show { display: block; }
+  .feedback.ok { background: rgba(74,222,128,0.15); border: 1px solid #4ade80; color: #a7f3d0; }
+  .feedback.nok { background: rgba(248,113,113,0.15); border: 1px solid #f87171; color: #fca5a5; }
+
+  /* Match pairs */
+  .match-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .match-col { display: flex; flex-direction: column; gap: 8px; }
+  .match-item {
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    min-height: 44px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .match-item.selected { border-color: #ffd200; background: rgba(255,210,0,0.15); }
+  .match-item.matched  { border-color: #4ade80; background: rgba(74,222,128,0.15); pointer-events: none; }
+  .match-item.error    { border-color: #f87171; background: rgba(248,113,113,0.15); }
+
+  .finish-btn {
+    display: block; width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #f7971e, #ffd200);
+    color: #333;
+    border: none;
+    border-radius: 18px;
+    font-size: 1.1rem;
+    font-family: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+  }
+
+  .result-panel {
+    display: none;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 30px 20px;
+    text-align: center;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+  }
+  .result-panel.show { display: block; }
+  .result-big { font-size: 4rem; margin-bottom: 10px; }
+  .result-msg { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+  .result-score { font-size: 0.9rem; opacity: 0.7; margin-bottom: 20px; }
+  .retry-btn {
+    background: linear-gradient(135deg, #a78bfa, #60a5fa);
+    color: white; border: none;
+    border-radius: 14px; padding: 14px 32px;
+    font-size: 1rem; font-family: inherit;
+    font-weight: 700; cursor: pointer;
+  }
+
+  .gabarito-block {
+    background: rgba(255,210,0,0.08);
+    border: 1px solid rgba(255,210,0,0.3);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #ffd200;
+    display: none;
+  }
+@media print {
+  .back-bar,.print-btn-wrap,.progress-wrap,.finish-btn,.result-panel,#resultPanel,.bottom-nav,.gabarito-block { display: none !important; }
+  html, body { background: white !important; color: #111 !important; }
+  body * { background-color: transparent !important; background-image: none !important; color: #111 !important; box-shadow: none !important; }
+  .exam-header { display: block !important; border: 2px solid #555 !important; }
+  .eh-field input { border-bottom: 1.5px solid #555 !important; color: #111 !important; }
+  .card { border: 1px solid #ccc !important; break-inside: avoid !important; page-break-inside: avoid !important; }
+  .opt-btn { border: 1.5px solid #bbb !important; color: #222 !important; background: white !important; margin-bottom: 4px !important; }
+  .opt-btn.correct, .opt-btn.wrong { background: white !important; border-color: #bbb !important; }
+  .feedback { display: none !important; }
+  .blank-input { border: none !important; border-bottom: 1.5px solid #555 !important; border-radius: 0 !important; color: #111 !important; background: transparent !important; }
+  .header { background: #f7971e !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .credit { color: #888 !important; }
+  @page { margin: 1.5cm; size: A4; }
+}
+
+/* === added for consistency === */
+.exam-header { background: white; border: 2px solid #e91e8c; border-radius: 16px; padding: 16px; margin: 12px 14px 16px; }
+.eh-title { text-align: center; font-size: 0.95rem; font-weight: 900; color: #e91e8c; margin-bottom: 14px; }
+.eh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.eh-field label { display: block; font-size: 0.68rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.eh-field input { width: 100%; border: none; border-bottom: 2px solid #e91e8c; padding: 5px 2px; font-size: 0.9rem; font-family: inherit; outline: none; background: transparent; color: #333; }
+.eh-nota { border-bottom: 2px solid #e91e8c; padding: 5px 2px; font-size: 0.85rem; color: #bbb; font-style: italic; min-height: 28px; }
+.print-btn-wrap { text-align: right; margin-bottom: 12px; }
+.print-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; background: transparent; border: 1px solid rgba(124,58,237,0.35); border-radius: 20px; font-size: 0.78rem; font-family: inherit; font-weight: 600; color: rgba(124,58,237,0.6); cursor: pointer; }
+.bottom-nav { display: flex; gap: 10px; padding: 0; margin: 20px 0 10px; }
+.bottom-nav a { flex: 1; padding: 13px 10px; border-radius: 14px; text-decoration: none; text-align: center; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.btn-prev { background: rgba(124,58,237,0.08); border: 1.5px solid rgba(124,58,237,0.2); color: #e91e8c !important; }
+.btn-next { background: linear-gradient(135deg,#e91e8c,#ff6fb7); color: white !important; }
+.btn-home-only { background: rgba(124,58,237,0.08); border: 1.5px solid rgba(124,58,237,0.2); color: #e91e8c !important; flex: 0.6; }
+</style>
+</head>
+<body>
+
+<div class="exam-header">
+  <div class="eh-title">📝 Preencha antes de começar</div>
+  <div class="eh-grid">
+    <div class="eh-field"><label>Nome</label><input type="text" placeholder="Seu nome aqui"></div>
+    <div class="eh-field"><label>Data</label><input type="date"></div>
+    <div class="eh-field"><label>Turma</label><input type="text" placeholder="Ex: 4º A"></div>
+    <div class="eh-field"><label>Nota</label><div class="eh-nota">Será preenchida</div></div>
+  </div>
+</div>
+<div class="print-btn-wrap"><button class="print-btn" onclick="window.print()">🖨️ Imprimir Avaliação</button></div>
+<div class="header">
+  <div class="badge">🛒🔥</div>
+  <div class="level-tag">Nível 2 — Intermediário</div>
+  <h1>At the Supermarket</h1>
+  <p>Unit 2 · Inglês para crianças</p>
+</div>
+
+<div class="progress-wrap">
+  <span>Pontuação 🏅</span>
+  <span class="score-big" id="scoreDisplay">0 / 9</span>
+</div>
+
+<!-- Q1 - Fill in the blank -->
+<div class="card" id="q1">
+  <div class="q-header">
+    <span class="q-badge">Q1</span>
+    <span class="q-type">Complete a frase</span>
+  </div>
+  <div class="q-text">Na frase abaixo, qual palavra entra no espaço em branco?<br><br>
+    <em>"_____ one pineapple on the table."</em><br>
+    <small style="opacity:0.6;">(Existe um abacaxi na mesa.)</small>
+  </div>
+  <input class="blank-input" id="inp-q1" placeholder="Digite: There is / There are" />
+  <button class="check-btn" onclick="checkBlank('q1', ['there is','there\'s'], 'There IS porque é só UM abacaxi! Um objeto = There IS. 🍍')">Verificar ✓</button>
+  <div class="feedback" id="fb-q1"></div>
+</div>
+
+<!-- Q2 - Fill in the blank -->
+<div class="card" id="q2">
+  <div class="q-header">
+    <span class="q-badge">Q2</span>
+    <span class="q-type">Complete a frase</span>
+  </div>
+  <div class="q-text">Complete a frase:<br><br>
+    <em>"_____ four carrots in the basket."</em><br>
+    <small style="opacity:0.6;">(Existem quatro cenouras na cesta.)</small>
+  </div>
+  <input class="blank-input" id="inp-q2" placeholder="Digite: There is / There are" />
+  <button class="check-btn" onclick="checkBlank('q2', ['there are'], 'There ARE porque são QUATRO cenouras! Mais de um = There ARE. 🥕🥕🥕🥕')">Verificar ✓</button>
+  <div class="feedback" id="fb-q2"></div>
+</div>
+
+<!-- Q3 - Multiple choice -->
+<div class="card" id="q3">
+  <div class="q-header">
+    <span class="q-badge">Q3</span>
+    <span class="q-type">Escolha correta</span>
+  </div>
+  <div class="q-text">Qual das opções está <em>CORRETA</em> em inglês?</div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(this,'q3',false,'Errado! Milk = leite, e leite é da seção DAIRY (laticínios).')">🍞 Milk belongs in the <strong>bakery</strong> section.</button>
+    <button class="opt-btn" onclick="answer(this,'q3',true,'Perfeito! Leite (milk) fica na seção DAIRY = laticínios! 🥛')">🥛 Milk belongs in the <strong>dairy</strong> section.</button>
+    <button class="opt-btn" onclick="answer(this,'q3',false,'Errado! A seção de bebidas (drinks) tem sucos e água, não leite puro.')">🧃 Milk belongs in the <strong>drinks</strong> section.</button>
+  </div>
+  <div class="feedback" id="fb-q3"></div>
+</div>
+
+<!-- Q4 - Multiple choice dialogue -->
+<div class="card" id="q4">
+  <div class="q-header">
+    <span class="q-badge">Q4</span>
+    <span class="q-type">Diálogo</span>
+  </div>
+  <div class="q-text">Marina pergunta: <em>"Do you like carrots?"</em><br>
+    João quer responder que <strong>NÃO gosta</strong>. O que ele diz?
+  </div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(this,'q4',false,'Yes, I like significa \"Sim, eu gosto\". João não gosta!')">Yes, I like carrots.</button>
+    <button class="opt-btn" onclick="answer(this,'q4',false,'\"Do you like\" é uma pergunta, não uma resposta.')">Do you like carrots?</button>
+    <button class="opt-btn" onclick="answer(this,'q4',true,'Correto! \"No, I don\'t like\" = Não, eu não gosto. 🥕✖️')">No, I don't like carrots.</button>
+  </div>
+  <div class="feedback" id="fb-q4"></div>
+</div>
+
+<!-- Q5 - Multiple choice -->
+<div class="card" id="q5">
+  <div class="q-header">
+    <span class="q-badge">Q5</span>
+    <span class="q-type">Comidas saudáveis</span>
+  </div>
+  <div class="q-text">Quais dessas comidas são <em>HEALTHY</em> (saudáveis)? Escolha a lista correta:</div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(this,'q5',false,'Chocolate e chips são unhealthy food! Eles têm muito açúcar e gordura.')">🍫 Chocolate, chips, pizza</button>
+    <button class="opt-btn" onclick="answer(this,'q5',true,'Isso! Frutas e legumes são healthy food! Fazem bem ao corpo! 🌟')">🥦 Carrot, apple, mango</button>
+    <button class="opt-btn" onclick="answer(this,'q5',false,'Sorvete e bala não são saudáveis. Podem, mas devem ser comidos pouco!')">🍦 Ice cream, candy, soda</button>
+  </div>
+  <div class="feedback" id="fb-q5"></div>
+</div>
+
+<!-- Q6 - Numbers -->
+<div class="card" id="q6">
+  <div class="q-header">
+    <span class="q-badge">Q6</span>
+    <span class="q-type">Números em inglês</span>
+  </div>
+  <div class="q-text">Como se escreve o número <em>17</em> em inglês?</div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(this,'q6',false,'Fifteen = 15. Cuidado!')">Fifteen</button>
+    <button class="opt-btn" onclick="answer(this,'q6',false,'Seventy = 70. Esse é muito maior!')">Seventy</button>
+    <button class="opt-btn" onclick="answer(this,'q6',true,'Isso mesmo! 17 = Seventeen! 🎯')">Seventeen</button>
+    <button class="opt-btn" onclick="answer(this,'q6',false,'Eighteen = 18. Quase, mas não é!')">Eighteen</button>
+  </div>
+  <div class="feedback" id="fb-q6"></div>
+</div>
+
+<!-- Q7 - Numbers math -->
+<div class="card" id="q7">
+  <div class="q-header">
+    <span class="q-badge">Q7</span>
+    <span class="q-type">Matemática + inglês</span>
+  </div>
+  <div class="q-text">Quanto é <em>25 + 25</em>? Escreva o resultado em inglês:</div>
+  <input class="blank-input" id="inp-q7" placeholder="Ex: twenty, thirty..." />
+  <button class="check-btn" onclick="checkBlank('q7', ['fifty','50'], '25 + 25 = 50 → FIFTY! 🎊 Lembra: 50 = fifty, 40 = forty, 30 = thirty')">Verificar ✓</button>
+  <div class="feedback" id="fb-q7"></div>
+</div>
+
+<!-- Q8 - Color of food -->
+<div class="card" id="q8">
+  <div class="q-header">
+    <span class="q-badge">Q8</span>
+    <span class="q-type">Cores dos alimentos</span>
+  </div>
+  <div class="q-text">Segundo o livro, a comida <em>RED</em> (vermelha) faz o quê para o seu corpo?</div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(this,'q8',false,'Curar cortes é a função da comida YELLOW (amarela)!')">💛 Cura cortes</button>
+    <button class="opt-btn" onclick="answer(this,'q8',true,'Exato! RED food makes your heart stronger = comida vermelha deixa o coração mais forte! ❤️')">❤️ Deixa o coração mais forte</button>
+    <button class="opt-btn" onclick="answer(this,'q8',false,'Dar energia é a função da comida BROWN (marrom)!')">🟤 Dá energia ao corpo</button>
+    <button class="opt-btn" onclick="answer(this,'q8',false,'Combater germes é a função da comida GREEN (verde)!')">💚 Combate germes</button>
+  </div>
+  <div class="feedback" id="fb-q8"></div>
+</div>
+
+<!-- Q9 - Supermarket sections -->
+<div class="card" id="q9">
+  <div class="q-header">
+    <span class="q-badge">Q9</span>
+    <span class="q-type">Seções do supermercado</span>
+  </div>
+  <div class="q-text">Onde você encontra pão (bread) e bolo no supermercado? Em qual seção?</div>
+  <div class="options">
+    <button class="opt-btn" onclick="answer(this,'q9',false,'Dairy = laticínios. Lá ficam leite, queijo e manteiga.')">🥛 Dairy</button>
+    <button class="opt-btn" onclick="answer(this,'q9',false,'Frozen food = comida congelada, como sorvete e legumes congelados.')">🧊 Frozen food</button>
+    <button class="opt-btn" onclick="answer(this,'q9',true,'Perfeito! BAKERY = padaria! É onde fica o pão, bolo e biscoitos. 🍞🎂')">🥖 Bakery</button>
+    <button class="opt-btn" onclick="answer(this,'q9',false,'Canned = enlatados. São alimentos em lata, como milho em lata e feijão.')">🥫 Canned</button>
+  </div>
+  <div class="feedback" id="fb-q9"></div>
+</div>
+
+<button class="finish-btn" onclick="showResult()">Ver resultado 🏆</button>
+
+<div class="result-panel" id="resultPanel">
+  <div class="result-big" id="resultEmoji">🎉</div>
+  <div class="result-msg" id="resultMsg"></div>
+  <div class="result-score" id="resultScore"></div>
+  <button class="retry-btn" onclick="location.reload()">Tentar de novo 🔄</button>
+</div>
+
+<script>
+let score = 0;
+let answered = {};
+const total = 9;
+
+function answer(btn, qid, correct, explanation) {
+  if (answered[qid]) return;
+  answered[qid] = true;
+  const card = document.getElementById(qid);
+  const allBtns = card.querySelectorAll('.opt-btn');
+  allBtns.forEach(b => b.classList.add('disabled'));
+  const fb = document.getElementById('fb-' + qid);
+  if (correct) {
+    btn.classList.add('correct');
+    score++;
+    document.getElementById('scoreDisplay').textContent = score + ' / ' + total;
+    fb.textContent = '✅ ' + explanation;
+    fb.className = 'feedback show ok';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = '❌ ' + explanation;
+    fb.className = 'feedback show nok';
+  }
+}
+
+function checkBlank(qid, accepts, explanation) {
+  if (answered[qid]) return;
+  const inp = document.getElementById('inp-' + qid);
+  const val = inp.value.trim().toLowerCase();
+  const fb = document.getElementById('fb-' + qid);
+  const btn = inp.parentElement.querySelector('.check-btn');
+  btn.disabled = true;
+  answered[qid] = true;
+  if (accepts.some(a => val === a.toLowerCase())) {
+    inp.classList.add('correct-input');
+    score++;
+    document.getElementById('scoreDisplay').textContent = score + ' / ' + total;
+    fb.textContent = '✅ ' + explanation;
+    fb.className = 'feedback show ok';
+  } else {
+    inp.classList.add('wrong-input');
+    fb.textContent = '❌ Resposta correta: ' + accepts[0].charAt(0).toUpperCase() + accepts[0].slice(1) + '. ' + explanation;
+    fb.className = 'feedback show nok';
+  }
+}
+
+function showResult() {
+  const panel = document.getElementById('resultPanel');
+  panel.classList.add('show');
+  const pct = score / total;
+  let emoji, msg;
+  if (pct === 1)       { emoji = '🏆'; msg = 'Arrasou! Nota 100! Você dominou esse nível! 💥'; }
+  else if (pct >= 0.78){ emoji = '🎉'; msg = 'Muito bem! Tá quase expert no supermarket! 🛒'; }
+  else if (pct >= 0.55){ emoji = '💪'; msg = 'Bom! Revise os conteúdos e tente de novo!'; }
+  else                  { emoji = '📖'; msg = 'Estude mais um pouco e você vai arrasar! 💛'; }
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultScore').textContent = 'Acertos: ' + score + ' de ' + total;
+  panel.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+<div class="bottom-nav">
+  <a href="resumo_conteudo.html" class="btn-prev">← 📚 Resumo</a>
+  <a href="index.html" class="btn-home-only">🏠</a>
+  <a href="nivel3_avancado.html" class="btn-next">💎 Nível 3 →</a>
+</div>
+<div class="credit">Desenvolvido por <strong>Jhony Beraldo</strong></div>
+</body>
+</html>
