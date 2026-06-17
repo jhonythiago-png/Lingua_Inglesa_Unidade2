@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>💎 Nível 3 – Avançado</title>
+<style>
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0d0d1a; min-height: 100vh; padding-bottom: 40px; color:#f0f0ff; }
+.top-nav { background: rgba(0,0,0,0.5); padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.top-nav a.nav-home { color: #f8bbd0; font-size: 0.8rem; font-weight: 700; text-decoration: none; background: rgba(124,58,237,0.25); border: 1px solid rgba(124,58,237,0.4); padding: 5px 12px; border-radius: 20px; }
+.top-nav .nav-title { font-size: 0.78rem; color: rgba(255,255,255,0.45); flex: 1; text-align: center; }
+.exam-header { background: white; border: 2px solid #e91e8c; border-radius: 16px; padding: 16px; margin: 12px 14px 16px; }
+.eh-title { text-align: center; font-size: 0.95rem; font-weight: 900; color: #e91e8c; margin-bottom: 14px; }
+.eh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.eh-field label { display: block; font-size: 0.68rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.eh-field input { width: 100%; border: none; border-bottom: 2px solid #e91e8c; padding: 5px 2px; font-size: 0.9rem; font-family: inherit; outline: none; background: transparent; color: #333; }
+.eh-nota { border-bottom: 2px solid #e91e8c; padding: 5px 2px; font-size: 0.85rem; color: #bbb; font-style: italic; min-height: 28px; }
+.header { text-align: center; padding: 22px 16px 14px; background: linear-gradient(135deg,rgba(76,29,149,0.9),rgba(13,45,64,0.9)); margin-bottom: 18px; }
+.header h1 { font-size: 1.4rem; font-weight: 900; color: white; }
+.header p  { font-size: 0.82rem; color: rgba(255,255,255,0.8); margin-top: 4px; }
+.level-tag { display: inline-block; background: linear-gradient(90deg,#8250ff,#10b981); color: white; font-size: 0.72rem; font-weight: 800; padding: 3px 12px; border-radius: 20px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.wrap { padding: 0 14px; }
+.print-btn-wrap { text-align: right; margin-bottom: 12px; }
+.print-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; background: transparent; border: 1px solid rgba(124,58,237,0.35); border-radius: 20px; font-size: 0.78rem; font-family: inherit; font-weight: 600; color: rgba(124,58,237,0.6); cursor: pointer; }
+.score-bar,.progress-wrap { background: rgba(255,255,255,0.08); border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+.score-label { font-size: 0.82rem; color: rgba(255,255,255,0.7); }
+.score-num,.score-big { font-size: 1.4rem; font-weight: 900; color: #f48fb1; }
+.hud { display: flex; gap: 8px; margin-bottom: 16px; }
+.hud-item { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 13px; padding: 11px 8px; text-align: center; }
+.hud-label { font-size: 0.68rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.5px; }
+.hud-val { font-size: 1.35rem; font-weight: 900; margin-top: 2px; }
+.hud-val.purple { color: #f48fb1; } .hud-val.teal { color: #34d399; } .hud-val.gold { color: #fbbf24; }
+.card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; padding: 18px; margin-bottom: 14px; box-shadow: 0 3px 12px rgba(124,58,237,0.07); border-left: none; }
+.q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.q-num { display: inline-block; background: #8250ff; color: white; border-radius: 50%; width: 28px; height: 28px; line-height: 28px; text-align: center; font-size: 0.85rem; font-weight: 800; margin-bottom: 8px; }
+.q-badge { background: linear-gradient(135deg,#8250ff,#10b981); color: white; font-weight: 900; font-size: 0.78rem; padding: 3px 10px; border-radius: 20px; }
+.q-num { background: linear-gradient(135deg,#8250ff,#10b981); color: white; font-weight: 900; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; margin-bottom: 0; width: auto; height: auto; line-height: normal; }
+.q-type { font-size: 0.72rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.5px; color: rgba(255,255,255,0.4); }
+.q-pts  { margin-left: auto; font-size: 0.72rem; color: #fbbf24; font-weight: 800; }
+.q-text { font-size: 0.97rem; color: #e0e0ff; margin-bottom: 14px; line-height: 1.6; }
+.q-text strong, .q-text .hl { color: #f48fb1; font-weight: 700; }
+.q-text .en { color: #34d399; font-style: italic; }
+.q-hint { background: rgba(124,58,237,0.1); border: 1px solid rgba(124,58,237,0.25); border-radius: 10px; padding: 9px 12px; margin-bottom: 12px; font-size: 0.83rem; color: #f8bbd0; line-height: 1.5; }
+.q-hint strong { color: #f48fb1; }
+.options { display: flex; flex-direction: column; gap: 9px; }
+.opt-btn { background: rgba(255,255,255,0.06); border: 2px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 12px 14px; font-size: 0.92rem; font-family: inherit; cursor: pointer; text-align: left; color: #e0e0ff; transition: transform 0.1s; line-height: 1.4; }
+.opt-btn:active { transform: scale(0.97); }
+.opt-btn.correct { background: rgba(52,211,153,0.15); border-color: #34d399; color: #6ee7b7; }
+.opt-btn.wrong   { background: rgba(248,113,113,0.12);   border-color: #f87171;   color: #fca5a5; }
+.opt-btn.disabled { pointer-events: none; }
+.blank-input { background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.15); border-radius: 10px; padding: 11px 13px; color: white; font-size: 0.92rem; font-family: inherit; width: 100%; margin-bottom: 8px; outline: none; }
+.blank-input:focus { border-color: #8250ff; }
+.blank-input.correct-input { border-color: #4ade80; }
+.blank-input.wrong-input   { border-color: #f87171; }
+.check-btn { background: linear-gradient(135deg,#8250ff,#10b981); border: none; border-radius: 10px; padding: 11px 20px; font-size: 0.9rem; font-family: inherit; font-weight: 800; color: white; cursor: pointer; display: block; width: 100%; }
+.check-btn:disabled { opacity: 0.35; pointer-events: none; }
+.feedback { display: none; margin-top: 10px; padding: 12px 13px; border-radius: 10px; font-size: 0.88rem; line-height: 1.6; }
+.feedback.show { display: block; }
+.feedback.ok  { background: rgba(52,211,153,0.1);  border: 1px solid rgba(52,211,153,0.35);  color: #6ee7b7;  }
+.feedback.nok { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.35); color: #fca5a5; }
+.fb-answer { font-weight: 800; display: block; margin-bottom: 4px; }
+.fb-tip    { font-size: 0.83rem; opacity: 0.85; color: #fcd34d; }
+.word-pool { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.word-chip { background: rgba(124,58,237,0.18); border: 1.5px solid rgba(124,58,237,0.35); border-radius: 8px; padding: 7px 11px; font-size: 0.87rem; cursor: pointer; color: #f8bbd0; user-select: none; }
+.word-chip.used { opacity: 0.2; pointer-events: none; }
+.sentence-box { min-height: 46px; background: rgba(255,255,255,0.04); border: 1.5px dashed rgba(255,255,255,0.18); border-radius: 10px; padding: 9px; margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.placed-chip { background: rgba(52,211,153,0.18); border: 1.5px solid rgba(52,211,153,0.38); border-radius: 7px; padding: 5px 9px; font-size: 0.85rem; color: #34d399; cursor: pointer; }
+.finish-btn { display: block; width: 100%; padding: 16px; background: linear-gradient(135deg,#8250ff,#10b981); color: white; border: none; border-radius: 16px; font-size: 1.1rem; font-family: inherit; font-weight: 900; cursor: pointer; margin-top: 6px; }
+.result-panel { display: none; background: rgba(255,255,255,0.04); border: 1px solid rgba(124,58,237,0.3); border-radius: 20px; padding: 28px 20px; text-align: center; margin-top: 20px; }
+.result-panel.show { display: block; }
+.result-big { font-size: 4rem; margin-bottom: 10px; }
+.result-grade { font-size: 3.5rem; font-weight: 900; background: linear-gradient(135deg,#8250ff,#10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 8px 0 2px; }
+.result-grade-label { font-size: 0.8rem; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.result-msg   { font-size: 1.1rem; font-weight: 800; color: white; margin-bottom: 8px; }
+.result-score { font-size: 0.88rem; color: rgba(255,255,255,0.6); margin-bottom: 16px; }
+.result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.retry-btn { flex: 1; min-width: 130px; background: linear-gradient(135deg,#f48fb1,#60a5fa); color: white; border: none; border-radius: 14px; padding: 13px 16px; font-size: 0.9rem; font-family: inherit; font-weight: 700; cursor: pointer; }
+.gabarito-link { flex: 1; min-width: 130px; background: rgba(124,58,237,0.15); border: 1.5px solid rgba(124,58,237,0.3); color: #f48fb1 !important; border-radius: 14px; padding: 13px 16px; text-decoration: none; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.gabarito-toggle { display: block; width: 100%; padding: 13px; background: rgba(251,191,36,0.1); border: 1.5px solid rgba(251,191,36,0.3); color: #fbbf24; font-family: inherit; font-size: 0.9rem; font-weight: 800; border-radius: 12px; cursor: pointer; margin-top: 12px; }
+.gabarito-section { display: none; background: rgba(251,191,36,0.05); border: 1px solid rgba(251,191,36,0.2); border-radius: 14px; padding: 18px; margin-top: 12px; }
+.gabarito-section.show { display: block; }
+.g-title { color: #fbbf24; font-weight: 900; font-size: 0.95rem; margin-bottom: 14px; }
+.g-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 0.85rem; line-height: 1.6; }
+.g-item:last-child { border-bottom: none; margin-bottom: 0; }
+.g-q   { color: rgba(255,255,255,0.45); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+.g-a   { color: #34d399; font-weight: 800; }
+.g-exp { color: rgba(255,255,255,0.6); margin-top: 3px; }
+.ans-tip { display: inline-block; margin-top: 5px; background: #f5f3ff; border-radius: 8px; padding: 4px 10px; font-size: 0.78rem; color: #e91e8c; font-weight: 600; }
+.bottom-nav { display: flex; gap: 10px; padding: 0; margin: 20px 0 10px; }
+.bottom-nav a { flex: 1; padding: 13px 10px; border-radius: 14px; text-decoration: none; text-align: center; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.btn-prev { background: rgba(255,255,255,0.06); border: 1.5px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.7) !important; }
+.btn-next { background: linear-gradient(135deg,#e91e8c,#ff6fb7); color: white !important; }
+.btn-home-only { background: rgba(124,58,237,0.08); border: 1.5px solid rgba(124,58,237,0.2); color: #e91e8c !important; flex: 0.6; }
+.bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 20%, rgba(124,58,237,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(16,185,129,0.12) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+.content { position: relative; z-index: 1; }
+.credit { text-align: center; padding: 16px 14px 8px; font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+.credit strong { color: #f48fb1; }
+/* Level header for gabarito */
+.level-block { margin-bottom: 22px; }
+.level-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px 16px 0 0; }
+.lv1 { background: linear-gradient(135deg,#e91e8c,#ff6fb7); }
+.lv2 { background: linear-gradient(135deg,#f7971e,#ffd200); }
+.lv3 { background: linear-gradient(135deg,#8250ff,#10b981); }
+.level-icon { font-size: 1.6rem; }
+.level-title { font-size: 1rem; font-weight: 900; color: white; }
+.level-sub   { font-size: 0.75rem; color: rgba(255,255,255,0.8); margin-top: 2px; }
+.answers-list { background: white; border-radius: 0 0 16px 16px; border: 1.5px solid #fce4ec; border-top: none; overflow: hidden; }
+.answer-item { display: flex; gap: 12px; align-items: flex-start; padding: 13px 16px; border-bottom: 1px solid #f3f0fb; }
+.answer-item:last-child { border-bottom: none; }
+.ans-num { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; color: white; margin-top: 1px; }
+.lv1 .ans-num { background: linear-gradient(135deg,#e91e8c,#ff6fb7); }
+.lv2 .ans-num { background: linear-gradient(135deg,#f7971e,#ffd200); color: #333; }
+.lv3 .ans-num { background: linear-gradient(135deg,#8250ff,#10b981); }
+.ans-body { flex: 1; }
+/* Hero for gabarito */
+.hero { background: linear-gradient(145deg,#1e0a3c,#1a0533,#0a2d40); padding: 30px 20px 22px; text-align: center; }
+.hero-icon { font-size: 2.8rem; display: block; margin-bottom: 10px; }
+.hero h1 { font-size: 1.5rem; font-weight: 900; color: white; }
+.hero p  { font-size: 0.88rem; color: rgba(255,255,255,0.6); margin-top: 6px; }
+.hero-pill { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); font-size: 0.72rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-top: 12px; }
+.wrap { padding: 16px 14px 0; max-width: 480px; margin: 0 auto; }
+@media print {
+  .top-nav,.print-btn-wrap,.score-bar,.hud,.progress-wrap,.finish-btn,.result-panel,#resultPanel,.gabarito-toggle,.bottom-nav,.bg-glow { display: none !important; }
+  html, body { background: white !important; color: #111 !important; }
+  body * { background-color: transparent !important; background-image: none !important; color: #111 !important; box-shadow: none !important; }
+  .exam-header { display: block !important; border: 2px solid #555 !important; }
+  .eh-field input { border-bottom: 1.5px solid #555 !important; color: #111 !important; }
+  .card { border: 1px solid #ccc !important; break-inside: avoid !important; page-break-inside: avoid !important; }
+  .opt-btn { border: 1.5px solid #bbb !important; color: #222 !important; background: white !important; margin-bottom: 4px !important; }
+  .opt-btn.correct, .opt-btn.wrong { background: white !important; border-color: #bbb !important; }
+  .feedback { display: none !important; }
+  .blank-input { border: none !important; border-bottom: 1.5px solid #555 !important; border-radius: 0 !important; color: #111 !important; background: transparent !important; }
+  .q-hint { border: 1px solid #ddd !important; background: #f9f9f9 !important; color: #444 !important; }
+  .word-pool { display: none !important; }
+  .sentence-box { border: 1px solid #bbb !important; min-height: 36px !important; }
+  .placed-chip { display: none !important; }
+  .header { background: #880e4f !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .level-header { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .lv1 { background: linear-gradient(135deg,#e91e8c,#ff6fb7) !important; }
+  .lv2 { background: linear-gradient(135deg,#f7971e,#ffd200) !important; }
+  .lv3 { background: linear-gradient(135deg,#8250ff,#10b981) !important; }
+  .credit { color: #888 !important; }
+  @page { margin: 1.5cm; size: A4; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="content">
+<div class="top-nav">
+  <a href="index.html" class="nav-home">🏠 Início</a>
+  <span class="nav-title">💎 Nível 3 — Avançado</span>
+  <div style="width:70px;"></div>
+</div>
+<div class="exam-header">
+  <div class="eh-title">📝 Preencha antes de começar</div>
+  <div class="eh-grid">
+    <div class="eh-field"><label>Nome</label><input type="text" id="f-nome" placeholder="Seu nome aqui"></div>
+    <div class="eh-field"><label>Data</label><input type="date" id="f-data"></div>
+    <div class="eh-field"><label>Turma</label><input type="text" id="f-turma" placeholder="Ex: 4º A"></div>
+    <div class="eh-field"><label>Nota</label><div class="eh-nota">Será preenchida</div></div>
+  </div>
+</div>
+<div class="print-btn-wrap"><button class="print-btn" onclick="window.print()">🖨️ Imprimir Avaliação</button></div>
+<div class="header">
+  <span class="crown">💎</span>
+  <div class="gem-tag">Nível 3 — Avançado</div>
+  <h1>At the Supermarket</h1>
+  <p>Unit 2 · Desafio completo com gabarito</p>
+</div>
+<div class="wrap">
+<div class="hud">
+  <div class="hud-item"><div class="hud-label">Pontos</div><div class="hud-val purple" id="scoreDisplay">0</div></div>
+  <div class="hud-item"><div class="hud-label">Total</div><div class="hud-val teal">11</div></div>
+  <div class="hud-item"><div class="hud-label">Acertos</div><div class="hud-val gold" id="pctDisplay">0%</div></div>
+</div>
+
+<!-- Q1 word builder -->
+<div class="card" id="q1">
+  <div class="q-header"><span class="q-num">Q1</span><span class="q-type">Monte a frase</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">Toque nas palavras para montar a frase:<br><span class="hl">"Existem dois abacaxis na mesa."</span></div>
+  <div class="q-hint">💡 <strong>Dica:</strong> Dois objetos → There ARE · On the table = na mesa</div>
+  <div class="word-pool" id="pool-q1">
+    <div class="word-chip" data-q="q1">pineapples</div>
+    <div class="word-chip" data-q="q1">There</div>
+    <div class="word-chip" data-q="q1">table</div>
+    <div class="word-chip" data-q="q1">are</div>
+    <div class="word-chip" data-q="q1">two</div>
+    <div class="word-chip" data-q="q1">on</div>
+    <div class="word-chip" data-q="q1">the</div>
+  </div>
+  <div class="sentence-box" id="sent-q1"></div>
+  <button class="check-btn" id="sbtn-q1">Verificar frase ✓</button>
+  <div class="feedback" id="fb-q1"></div>
+</div>
+
+<!-- Q2 word builder -->
+<div class="card" id="q2">
+  <div class="q-header"><span class="q-num">Q2</span><span class="q-type">Monte a frase</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">Toque nas palavras para montar a frase:<br><span class="hl">"Existe um tomate na cesta."</span></div>
+  <div class="q-hint">💡 <strong>Dica:</strong> Um objeto → There IS · In the basket = dentro da cesta</div>
+  <div class="word-pool" id="pool-q2">
+    <div class="word-chip" data-q="q2">basket</div>
+    <div class="word-chip" data-q="q2">There</div>
+    <div class="word-chip" data-q="q2">tomato</div>
+    <div class="word-chip" data-q="q2">one</div>
+    <div class="word-chip" data-q="q2">is</div>
+    <div class="word-chip" data-q="q2">the</div>
+    <div class="word-chip" data-q="q2">in</div>
+  </div>
+  <div class="sentence-box" id="sent-q2"></div>
+  <button class="check-btn" id="sbtn-q2">Verificar frase ✓</button>
+  <div class="feedback" id="fb-q2"></div>
+</div>
+
+<!-- Q3 blank -->
+<div class="card" id="q3">
+  <div class="q-header"><span class="q-num">Q3</span><span class="q-type">Complete o diálogo</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">
+    — Teacher: <span class="en">"Do you like cheese, Ana?"</span><br>
+    — Ana não gosta. Complete com <span class="hl">don't</span> ou <span class="hl">doesn't</span>:<br><br>
+    <span class="en">"No, I _______ like cheese."</span>
+  </div>
+  <div class="q-hint">💡 <strong>Dica:</strong> Para negar com I/you/we/they → <strong>don't</strong> · Para he/she/it → doesn't</div>
+  <input class="blank-input" id="inp-q3" placeholder="Digite sua resposta aqui">
+  <button class="check-btn" id="btn-q3">Verificar ✓</button>
+  <div class="feedback" id="fb-q3"></div>
+</div>
+
+<!-- Q4 blank -->
+<div class="card" id="q4">
+  <div class="q-header"><span class="q-num">Q4</span><span class="q-type">Complete o diálogo</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">
+    Complete com <span class="hl">Do</span>, <span class="hl">Does</span>, <span class="hl">Are</span> ou <span class="hl">Is</span>:<br><br>
+    <span class="en">"_______ you like strawberries?"</span><br>
+    <small style="opacity:0.5;">(Você gosta de morangos?)</small>
+  </div>
+  <div class="q-hint">💡 <strong>Dica:</strong> Perguntas com LIKE usam Do ou Does. Para you → sempre <strong>Do</strong>!</div>
+  <input class="blank-input" id="inp-q4" placeholder="Digite sua resposta aqui">
+  <button class="check-btn" id="btn-q4">Verificar ✓</button>
+  <div class="feedback" id="fb-q4"></div>
+</div>
+
+<!-- Q5 multiple choice -->
+<div class="card" id="q5">
+  <div class="q-header"><span class="q-num">Q5</span><span class="q-type">Análise de frases</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">Qual frase está <span class="hl">100% correta</span> em inglês?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q5" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Three bananas = mais de uma → deve ser THERE ARE, não THERE IS."
+      data-tip="💡 Sacada: sempre que o número for 2 ou mais, usa THERE ARE. Um só = THERE IS!">
+      There is three bananas in the basket.
+    </button>
+    <button class="opt-btn" data-q="q5" data-correct="true"
+      data-ok="✅ Correto! Um pão (singular) = THERE IS one bread. ✅"
+      data-nok="" data-tip="">
+      There is one bread on the table.
+    </button>
+    <button class="opt-btn" data-q="q5" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! One apple = uma maçã (singular) → deve ser THERE IS, não THERE ARE."
+      data-tip="💡 Sacada: ONE = um = singular → THERE IS. Leia o número da frase antes de escolher!">
+      There are one apple on the table.
+    </button>
+    <button class="opt-btn" data-q="q5" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Many = muitos → plural → precisa de THERE ARE, não THERE IS."
+      data-tip="💡 Sacada: Many, lots of, several = muitos → sempre THERE ARE!">
+      There is many vegetables here.
+    </button>
+  </div>
+  <div class="feedback" id="fb-q5"></div>
+</div>
+
+<!-- Q6 blank math -->
+<div class="card" id="q6">
+  <div class="q-header"><span class="q-num">Q6</span><span class="q-type">Números por extenso</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">Escreva por extenso em inglês o resultado de: <span class="hl">30 – 5 = ?</span></div>
+  <div class="q-hint">💡 <strong>Dica:</strong> 20=twenty · 25=twenty-five · 30=thirty · 40=forty · 50=fifty</div>
+  <input class="blank-input" id="inp-q6" placeholder="Digite sua resposta aqui">
+  <button class="check-btn" id="btn-q6">Verificar ✓</button>
+  <div class="feedback" id="fb-q6"></div>
+</div>
+
+<!-- Q7 multiple choice -->
+<div class="card" id="q7">
+  <div class="q-header"><span class="q-num">Q7</span><span class="q-type">Raciocínio</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">Ana cortou o joelho. Qual cor de alimento ajuda o corpo a <strong>curar cortes</strong>, segundo o livro?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q7" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Red food makes your heart stronger = comida vermelha deixa o coração mais forte!"
+      data-tip="🌈 Sacada: Red=coração · Green=germes · Yellow=cortes · Orange=visão · Brown=energia. Decore!">
+      ❤️ Red food
+    </button>
+    <button class="opt-btn" data-q="q7" data-correct="true"
+      data-ok="✅ Exato! YELLOW food helps your body heal cuts = comida amarela cura cortes! 🍌💛"
+      data-nok="" data-tip="">
+      💛 Yellow food
+    </button>
+    <button class="opt-btn" data-q="q7" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Green food fights germs = comida verde combate os germes, não cura cortes."
+      data-tip="🌈 Sacada: Green = luta contra doenças (germs = germes). Yellow = cura machucados!">
+      💚 Green food
+    </button>
+    <button class="opt-btn" data-q="q7" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Brown food gives your body energy = comida marrom dá energia ao corpo."
+      data-tip="🌈 Sacada: Brown food = pão, arroz, castanhas. Dão energia mas não curam cortes!">
+      🟤 Brown food
+    </button>
+  </div>
+  <div class="feedback" id="fb-q7"></div>
+</div>
+
+<!-- Q8 multiple choice -->
+<div class="card" id="q8">
+  <div class="q-header"><span class="q-num">Q8</span><span class="q-type">Tradução</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">Traduza para o inglês:<br><span class="hl">"Você gosta de cereal e leite?"</span></div>
+  <div class="options">
+    <button class="opt-btn" data-q="q8" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! I like = afirmação (eu gosto). A frase pede uma PERGUNTA."
+      data-tip="💡 Sacada: Perguntas em inglês invertem a ordem: DO + YOU + LIKE? A frase começa com DO!">
+      I like cereal and milk.
+    </button>
+    <button class="opt-btn" data-q="q8" data-correct="true"
+      data-ok="✅ Perfeito! DO YOU LIKE + alimento + AND + alimento + ? = pergunta completa! 🥣🥛"
+      data-nok="" data-tip="">
+      Do you like cereal and milk?
+    </button>
+    <button class="opt-btn" data-q="q8" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! Em inglês a pergunta PRECISA do DO no início. Só virar não basta!"
+      data-tip="💡 Sacada: Diferente do português, em inglês não dá para fazer pergunta só com ponto de interrogação. Precisa do DO!">
+      You like cereal and milk?
+    </button>
+    <button class="opt-btn" data-q="q8" data-correct="false"
+      data-ok=""
+      data-nok="❌ Errado! DOES é usado para he/she/it (ele/ela). Para YOU, sempre use DO!"
+      data-tip="💡 Sacada: Do = I, you, we, they · Does = he, she, it. A frase tem YOU então é DO!">
+      Does you like cereal and milk?
+    </button>
+  </div>
+  <div class="feedback" id="fb-q8"></div>
+</div>
+
+<!-- Q9 multiple choice -->
+<div class="card" id="q9">
+  <div class="q-header"><span class="q-num">Q9</span><span class="q-type">Vocabulário avançado</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">Marina foi comprar: <span class="en">yogurt, cream cheese e butter</span>. Qual seção ela visitou?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q9" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Bakery = padaria. Lá ficam pão, bolo e biscoito — coisas assadas no forno."
+      data-tip="🥖 Sacada: Bakery vem de bake = assar. Só produtos assados ficam lá!">
+      🥖 Bakery
+    </button>
+    <button class="opt-btn" data-q="q9" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Frozen food = comida congelada. Iogurte e queijo são refrigerados, não congelados!"
+      data-tip="❄️ Sacada: Frozen = congelado (zero grau). Dairy = refrigerado (geladeira normal). São coisas diferentes!">
+      🧊 Frozen food
+    </button>
+    <button class="opt-btn" data-q="q9" data-correct="true"
+      data-ok="✅ Excelente! DAIRY = laticínios. Iogurte, cream cheese e manteiga vêm do leite! 🥛🧀"
+      data-nok="" data-tip="">
+      🥛 Dairy
+    </button>
+    <button class="opt-btn" data-q="q9" data-correct="false"
+      data-ok=""
+      data-nok="❌ Não! Fruit and vegetables = frutas e vegetais. Iogurte e manteiga não são plantas!"
+      data-tip="🥦 Sacada: Fruit and vegetables = tudo que vem da terra. Dairy = tudo que vem do leite da vaca!">
+      🥦 Fruit and vegetables
+    </button>
+  </div>
+  <div class="feedback" id="fb-q9"></div>
+</div>
+
+<!-- Q10 blank -->
+<div class="card" id="q10">
+  <div class="q-header"><span class="q-num">Q10</span><span class="q-type">Produção escrita</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">Escreva em inglês a frase completa:<br><span class="hl">"Eu gosto de manga e abacaxi."</span></div>
+  <div class="q-hint">💡 <strong>Dica:</strong> Manga = mango · Abacaxi = pineapple · E = and · Eu gosto = I like</div>
+  <input class="blank-input" id="inp-q10" placeholder="Digite sua resposta aqui">
+  <button class="check-btn" id="btn-q10">Verificar ✓</button>
+  <div class="feedback" id="fb-q10"></div>
+</div>
+
+<!-- Q11 blank -->
+<div class="card" id="q11">
+  <div class="q-header"><span class="q-num">Q11</span><span class="q-type">Desafio final</span><span class="q-pts">+1pt</span></div>
+  <div class="q-text">Eric tem <span class="en">six bananas, three pears e one pumpkin</span> na cesta.<br>
+    Quantos itens no total? Escreva o número em inglês:<br>
+    <small style="opacity:0.5;">six + three + one = ? → escreva em inglês</small>
+  </div>
+  <div class="q-hint">💡 <strong>Dica:</strong> 6+3+1 = ? · 8=eight · 9=nine · 10=ten · 11=eleven</div>
+  <input class="blank-input" id="inp-q11" placeholder="Digite sua resposta aqui">
+  <button class="check-btn" id="btn-q11">Verificar ✓</button>
+  <div class="feedback" id="fb-q11"></div>
+</div>
+
+<button class="finish-btn" id="finishBtn">Finalizar e ver gabarito 🏆</button>
+
+<div class="result-panel" id="resultPanel">
+  <div class="result-big" id="resultEmoji">🎉</div>
+  <div class="result-grade" id="resultGrade"></div>
+  <div class="result-grade-label" id="resultGradeLabel"></div>
+  <div class="result-msg" id="resultMsg"></div>
+  <div class="result-score" id="resultScore"></div>
+  <div class="result-actions">
+    <button class="retry-btn" onclick="location.reload()">Tentar de novo 🔄</button>
+    <a href="gabarito.html" class="gabarito-link">📋 Ver Gabarito</a>
+  </div>
+  <button class="gabarito-toggle" id="gabBtn">📋 Ver Gabarito Completo com Explicações</button>
+</div>
+
+</div>
+</div></div>
+
+<script>
+var score = 0;
+var answered = {};
+var total = 11;
+
+function updateHUD() {
+  document.getElementById('scoreDisplay').textContent = score;
+  document.getElementById('pctDisplay').textContent = Math.round((score / total) * 100) + '%';
+}
+
+function showFeedback(qid, isCorrect, okMsg, nokMsg, tipMsg) {
+  var fb = document.getElementById('fb-' + qid);
+  if (isCorrect) {
+    fb.innerHTML = '<span class="fb-answer">' + okMsg + '</span>';
+    fb.className = 'feedback show ok';
+  } else {
+    fb.innerHTML = '<span class="fb-answer">' + nokMsg + '</span>' +
+                   (tipMsg ? '<span class="fb-tip">' + tipMsg + '</span>' : '');
+    fb.className = 'feedback show nok';
+  }
+}
+
+// multiple choice
+document.querySelectorAll('.opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var qid = btn.dataset.q;
+    if (answered[qid]) return;
+    answered[qid] = true;
+    var correct = btn.dataset.correct === 'true';
+    document.getElementById(qid).querySelectorAll('.opt-btn').forEach(function(b) { b.classList.add('disabled'); });
+    if (correct) {
+      btn.classList.add('correct'); score++; updateHUD();
+      showFeedback(qid, true, btn.dataset.ok, '', '');
+    } else {
+      btn.classList.add('wrong');
+      showFeedback(qid, false, '', btn.dataset.nok, btn.dataset.tip);
+    }
+  });
+});
+
+// blank configs
+var blankCfg = {
+  'q3':  { accepts: ["don't","dont"],
+           ok:  "✅ No, I don't like = Nao, eu nao gosto! O don't e obrigatorio! 🧀",
+           nok: "❌ A resposta e: don't",
+           tip: "💡 Sacada: Para negar com I/you → don't. Ex: I don't like pizza. Nunca diga 'I not like'!" },
+  'q4':  { accepts: ['do'],
+           ok:  '✅ Perfeito! DO you like? E a forma de perguntar para you. 🍓',
+           nok: '❌ A resposta e: Do',
+           tip: '💡 Sacada: Do = pergunta para I, you, we, they. Does = pergunta para he, she, it.' },
+  'q6':  { accepts: ['twenty-five','twenty five','twentyfive'],
+           ok:  '✅ 30 - 5 = 25 = TWENTY-FIVE! 🎯',
+           nok: '❌ A resposta e: twenty-five',
+           tip: '🔢 Sacada: Numeros 21-29 = twenty + hifen + unidade. 21=twenty-one, 22=twenty-two, 25=twenty-five.' },
+  'q10': { accepts: ['i like mango and pineapple','i like mango and pineapple.'],
+           ok:  '✅ Arrasou! I like mango and pineapple. 🥭🍍',
+           nok: '❌ A resposta e: I like mango and pineapple.',
+           tip: '💡 Sacada: Mango = manga, Pineapple = abacaxi, AND = e. Estrutura: I like + fruta + and + fruta.' },
+  'q11': { accepts: ['ten','10'],
+           ok:  '✅ 6+3+1 = 10 = TEN! 🎊',
+           nok: '❌ A resposta e: ten (10)',
+           tip: '🔢 Sacada: 8=eight, 9=nine, 10=ten, 11=eleven, 12=twelve. Conte sempre no dedo primeiro!' }
+};
+
+['q3','q4','q6','q10','q11'].forEach(function(qid) {
+  var btn = document.getElementById('btn-' + qid);
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    if (answered[qid]) return;
+    answered[qid] = true;
+    btn.disabled = true;
+    var inp = document.getElementById('inp-' + qid);
+    var val = inp.value.trim().toLowerCase().replace(/[.!?]$/, '');
+    var cfg = blankCfg[qid];
+    if (cfg.accepts.indexOf(val) !== -1) {
+      inp.classList.add('correct-input'); score++; updateHUD();
+      showFeedback(qid, true, cfg.ok, '', '');
+    } else {
+      inp.classList.add('wrong-input');
+      showFeedback(qid, false, '', cfg.nok, cfg.tip);
+    }
+  });
+});
+
+// word builder
+document.querySelectorAll('.word-chip').forEach(function(chip) {
+  chip.addEventListener('click', function() {
+    if (chip.classList.contains('used')) return;
+    var qid = chip.dataset.q;
+    chip.classList.add('used');
+    var box = document.getElementById('sent-' + qid);
+    var placed = document.createElement('div');
+    placed.className = 'placed-chip';
+    placed.textContent = chip.textContent;
+    placed.addEventListener('click', function() {
+      placed.remove();
+      chip.classList.remove('used');
+    });
+    box.appendChild(placed);
+  });
+});
+
+var sentCorrect = {
+  'q1': { answer: 'there are two pineapples on the table', ok: '✅ THERE ARE (dois) + two pineapples + on the table. 🍍🍍', nok: '❌ Ordem correta: There are two pineapples on the table.', tip: '💡 Sacada: Dois objetos = THERE ARE. On the table = em cima da mesa. In the basket = dentro da cesta.' },
+  'q2': { answer: 'there is one tomato in the basket',    ok: '✅ THERE IS (um) + one tomato + in the basket. 🍅',       nok: '❌ Ordem correta: There is one tomato in the basket.',    tip: '💡 Sacada: Um objeto = THERE IS. In the basket = dentro da cesta.' }
+};
+
+['q1','q2'].forEach(function(qid) {
+  var btn = document.getElementById('sbtn-' + qid);
+  if (!btn) return;
+  btn.addEventListener('click', function() {
+    if (answered[qid]) return;
+    answered[qid] = true;
+    btn.disabled = true;
+    var box = document.getElementById('sent-' + qid);
+    var chips = box.querySelectorAll('.placed-chip');
+    var sentence = Array.from(chips).map(function(c) { return c.textContent; }).join(' ').toLowerCase().replace(/[.!?]$/, '');
+    var cfg = sentCorrect[qid];
+    if (sentence === cfg.answer) {
+      chips.forEach(function(c) { c.style.background='rgba(45,212,191,0.25)'; c.style.pointerEvents='none'; });
+      score++; updateHUD();
+      showFeedback(qid, true, cfg.ok, '', '');
+    } else {
+      chips.forEach(function(c) { c.style.background='rgba(248,113,113,0.2)'; c.style.pointerEvents='none'; });
+      showFeedback(qid, false, '', cfg.nok, cfg.tip);
+    }
+  });
+});
+
+document.getElementById('finishBtn').addEventListener('click', function() {
+  var panel = document.getElementById('resultPanel');
+  panel.classList.add('show');
+  var nota = Math.round((score / 11) * 100);
+  var emoji, msg, gradeLabel;
+  if (nota === 100)      { emoji = '🏆'; msg = 'Incrível! Nota máxima! Você é uma superestrela! 🌟'; gradeLabel = 'PERFEITO!'; }
+  else if (nota >= 90)   { emoji = '🎉'; msg = 'Arrasou! Quase perfeito, continue assim! 💪'; gradeLabel = 'EXCELENTE!'; }
+  else if (nota >= 75)   { emoji = '😄'; msg = 'Muito bem! Você está quase expert! 🛒'; gradeLabel = 'MUITO BOM!'; }
+  else if (nota >= 60)   { emoji = '😊'; msg = 'Bom trabalho! Revise as dicas e tente de novo!'; gradeLabel = 'BOM!'; }
+  else if (nota >= 40)   { emoji = '💪'; msg = 'Continue tentando! Estude o resumo e vai arrasar!'; gradeLabel = 'PODE MAIS!'; }
+  else                    { emoji = '📚'; msg = 'Não desista! Leia o resumo e tente novamente! 💛'; gradeLabel = 'ESTUDE MAIS!'; }
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultGrade').textContent = nota + '%';
+  document.getElementById('resultGradeLabel').textContent = gradeLabel;
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultScore').textContent = 'Você acertou ' + score + ' de 11 questões.';
+  panel.scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('gabBtn').addEventListener('click', function() {
+    document.getElementById('gabSection').classList.toggle('show');
+  });
+});
+
+</script>
+
+
+<div class="bottom-nav">
+  <a href="nivel2_intermediario.html" class="btn-prev">← ← Nível 2</a>
+  <a href="index.html" class="btn-home-only" style="flex:0.6;">🏠</a>
+  <a href="index.html" class="btn-next">🏠 Início →</a>
+</div>
+
+<div class="credit">Desenvolvido por <strong>Jhony Beraldo</strong></div>
+
+
+</body>
+</html>

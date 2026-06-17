@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>⭐ Nível 1 – Básico – Inglês</title>
+<style>
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg,#fff0f7,#fff9f0,#f0fff4); min-height: 100vh; padding-bottom: 40px;  }
+.top-nav { background: #1a0533; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.top-nav a.nav-home { color: #f8bbd0; font-size: 0.8rem; font-weight: 700; text-decoration: none; background: rgba(124,58,237,0.25); border: 1px solid rgba(124,58,237,0.4); padding: 5px 12px; border-radius: 20px; }
+.top-nav .nav-title { font-size: 0.78rem; color: rgba(255,255,255,0.45); flex: 1; text-align: center; }
+.exam-header { background: white; border: 2px solid #e91e8c; border-radius: 16px; padding: 16px; margin: 12px 14px 16px; }
+.eh-title { text-align: center; font-size: 0.95rem; font-weight: 900; color: #e91e8c; margin-bottom: 14px; }
+.eh-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+.eh-field label { display: block; font-size: 0.68rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.eh-field input { width: 100%; border: none; border-bottom: 2px solid #e91e8c; padding: 5px 2px; font-size: 0.9rem; font-family: inherit; outline: none; background: transparent; color: #333; }
+.eh-nota { border-bottom: 2px solid #e91e8c; padding: 5px 2px; font-size: 0.85rem; color: #bbb; font-style: italic; min-height: 28px; }
+.header { text-align: center; padding: 22px 16px 14px; background: linear-gradient(135deg,#e91e8c,#ff6fb7); margin-bottom: 18px; }
+.header h1 { font-size: 1.4rem; font-weight: 900; color: white; }
+.header p  { font-size: 0.82rem; color: rgba(255,255,255,0.8); margin-top: 4px; }
+.level-tag { display: inline-block; background: rgba(255,255,255,0.25); color: white; font-size: 0.72rem; font-weight: 800; padding: 3px 12px; border-radius: 20px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.wrap { padding: 0 14px; }
+.print-btn-wrap { text-align: right; margin-bottom: 12px; }
+.print-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 16px; background: transparent; border: 1px solid rgba(124,58,237,0.35); border-radius: 20px; font-size: 0.78rem; font-family: inherit; font-weight: 600; color: rgba(124,58,237,0.6); cursor: pointer; }
+.score-bar,.progress-wrap { background: white; border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+.score-label { font-size: 0.82rem; color: #888; }
+.score-num,.score-big { font-size: 1.4rem; font-weight: 900; color: #e91e8c; }
+.hud { display: flex; gap: 8px; margin-bottom: 16px; }
+.hud-item { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 13px; padding: 11px 8px; text-align: center; }
+.hud-label { font-size: 0.68rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.5px; }
+.hud-val { font-size: 1.35rem; font-weight: 900; margin-top: 2px; }
+.hud-val.purple { color: #f48fb1; } .hud-val.teal { color: #34d399; } .hud-val.gold { color: #fbbf24; }
+.card { background: white; border: 1px solid #fce4ec; border-radius: 16px; padding: 18px; margin-bottom: 14px; box-shadow: 0 3px 12px rgba(124,58,237,0.07); border-left: 5px solid #e91e8c; }
+.q-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.q-num { display: inline-block; background: #e91e8c; color: white; border-radius: 50%; width: 28px; height: 28px; line-height: 28px; text-align: center; font-size: 0.85rem; font-weight: 800; margin-bottom: 8px; }
+.q-badge { background: linear-gradient(135deg,#e91e8c,#ff6fb7); color: white; font-weight: 900; font-size: 0.78rem; padding: 3px 10px; border-radius: 20px; }
+.q-num { background: linear-gradient(135deg,#e91e8c,#ff6fb7); color: white; font-weight: 900; font-size: 0.75rem; padding: 3px 10px; border-radius: 20px; margin-bottom: 0; width: auto; height: auto; line-height: normal; }
+.q-type { font-size: 0.72rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.5px; color: #bbb; }
+.q-pts  { margin-left: auto; font-size: 0.72rem; color: #fbbf24; font-weight: 800; }
+.q-text { font-size: 0.97rem; color: #333; margin-bottom: 14px; line-height: 1.6; }
+.q-text strong, .q-text .hl { color: #e91e8c; font-weight: 700; }
+.q-text .en { color: #e91e8c; font-style: italic; }
+.q-hint { background: rgba(124,58,237,0.06); border: 1px solid rgba(124,58,237,0.2); border-radius: 10px; padding: 9px 12px; margin-bottom: 12px; font-size: 0.83rem; color: #6b4fa8; line-height: 1.5; }
+.q-hint strong { color: #e91e8c; }
+.options { display: flex; flex-direction: column; gap: 9px; }
+.opt-btn { background: #faf8ff; border: 2px solid #fce4ec; border-radius: 12px; padding: 12px 14px; font-size: 0.92rem; font-family: inherit; cursor: pointer; text-align: left; color: #444; transition: transform 0.1s; line-height: 1.4; }
+.opt-btn:active { transform: scale(0.97); }
+.opt-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+.opt-btn.wrong   { background: #f8d7da;   border-color: #dc3545;   color: #721c24; }
+.opt-btn.disabled { pointer-events: none; }
+.blank-input { background: rgba(255,255,255,0.1); border: 1.5px solid rgba(255,255,255,0.2); border-radius: 10px; padding: 11px 13px; color: white; font-size: 0.92rem; font-family: inherit; width: 100%; margin-bottom: 8px; outline: none; }
+.blank-input:focus { border-color: #e91e8c; }
+.blank-input.correct-input { border-color: #4ade80; }
+.blank-input.wrong-input   { border-color: #f87171; }
+.check-btn { background: linear-gradient(135deg,#e91e8c,#ff6fb7); border: none; border-radius: 10px; padding: 11px 20px; font-size: 0.9rem; font-family: inherit; font-weight: 800; color: white; cursor: pointer; display: block; width: 100%; }
+.check-btn:disabled { opacity: 0.35; pointer-events: none; }
+.feedback { display: none; margin-top: 10px; padding: 12px 13px; border-radius: 10px; font-size: 0.88rem; line-height: 1.6; }
+.feedback.show { display: block; }
+.feedback.ok  { background: #d4edda;  border: 1px solid #28a745;  color: #155724;  }
+.feedback.nok { background: #f8d7da; border: 1px solid #dc3545; color: #721c24; }
+.fb-answer { font-weight: 800; display: block; margin-bottom: 4px; }
+.fb-tip    { font-size: 0.83rem; opacity: 0.85; color: #333; }
+.word-pool { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.word-chip { background: rgba(124,58,237,0.18); border: 1.5px solid rgba(124,58,237,0.35); border-radius: 8px; padding: 7px 11px; font-size: 0.87rem; cursor: pointer; color: #f8bbd0; user-select: none; }
+.word-chip.used { opacity: 0.2; pointer-events: none; }
+.sentence-box { min-height: 46px; background: rgba(255,255,255,0.04); border: 1.5px dashed rgba(255,255,255,0.18); border-radius: 10px; padding: 9px; margin-bottom: 10px; display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.placed-chip { background: rgba(52,211,153,0.18); border: 1.5px solid rgba(52,211,153,0.38); border-radius: 7px; padding: 5px 9px; font-size: 0.85rem; color: #34d399; cursor: pointer; }
+.finish-btn { display: block; width: 100%; padding: 16px; background: linear-gradient(135deg,#e91e8c,#ff6fb7); color: white; border: none; border-radius: 16px; font-size: 1.1rem; font-family: inherit; font-weight: 900; cursor: pointer; margin-top: 6px; }
+.result-panel { display: none; background: white; border: none; border-radius: 20px; padding: 28px 20px; text-align: center; margin-top: 20px; }
+.result-panel.show { display: block; }
+.result-big { font-size: 4rem; margin-bottom: 10px; }
+.result-grade { font-size: 3.5rem; font-weight: 900; background: linear-gradient(135deg,#e91e8c,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin: 8px 0 2px; }
+.result-grade-label { font-size: 0.8rem; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.result-msg   { font-size: 1.1rem; font-weight: 800; color: #333; margin-bottom: 8px; }
+.result-score { font-size: 0.88rem; color: #888; margin-bottom: 16px; }
+.result-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+.retry-btn { flex: 1; min-width: 130px; background: linear-gradient(135deg,#f48fb1,#60a5fa); color: white; border: none; border-radius: 14px; padding: 13px 16px; font-size: 0.9rem; font-family: inherit; font-weight: 700; cursor: pointer; }
+.gabarito-link { flex: 1; min-width: 130px; background: rgba(124,58,237,0.1); border: 1.5px solid rgba(124,58,237,0.25); color: #e91e8c !important; border-radius: 14px; padding: 13px 16px; text-decoration: none; font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.gabarito-toggle { display: block; width: 100%; padding: 13px; background: rgba(251,191,36,0.1); border: 1.5px solid rgba(251,191,36,0.3); color: #fbbf24; font-family: inherit; font-size: 0.9rem; font-weight: 800; border-radius: 12px; cursor: pointer; margin-top: 12px; }
+.gabarito-section { display: none; background: rgba(251,191,36,0.05); border: 1px solid rgba(251,191,36,0.2); border-radius: 14px; padding: 18px; margin-top: 12px; }
+.gabarito-section.show { display: block; }
+.g-title { color: #fbbf24; font-weight: 900; font-size: 0.95rem; margin-bottom: 14px; }
+.g-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 0.85rem; line-height: 1.6; }
+.g-item:last-child { border-bottom: none; margin-bottom: 0; }
+.g-q   { color: #aaa; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+.g-a   { color: #16a34a; font-weight: 800; }
+.g-exp { color: #6b6688; margin-top: 3px; }
+.ans-tip { display: inline-block; margin-top: 5px; background: #f5f3ff; border-radius: 8px; padding: 4px 10px; font-size: 0.78rem; color: #e91e8c; font-weight: 600; }
+.bottom-nav { display: flex; gap: 10px; padding: 0; margin: 20px 0 10px; }
+.bottom-nav a { flex: 1; padding: 13px 10px; border-radius: 14px; text-decoration: none; text-align: center; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.btn-prev { background: rgba(124,58,237,0.08); border: 1.5px solid rgba(124,58,237,0.2); color: #e91e8c !important; }
+.btn-next { background: linear-gradient(135deg,#e91e8c,#ff6fb7); color: white !important; }
+.btn-home-only { background: rgba(124,58,237,0.08); border: 1.5px solid rgba(124,58,237,0.2); color: #e91e8c !important; flex: 0.6; }
+.bg-glow { position: fixed; inset: 0; background: radial-gradient(ellipse at 20% 20%, rgba(124,58,237,0.18) 0%, transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(16,185,129,0.12) 0%, transparent 60%); pointer-events: none; z-index: 0; }
+.content { position: relative; z-index: 1; }
+.credit { text-align: center; padding: 16px 14px 8px; font-size: 0.75rem; color: #bbb; }
+.credit strong { color: #f48fb1; }
+/* Level header for gabarito */
+.level-block { margin-bottom: 22px; }
+.level-header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 16px 16px 0 0; }
+.lv1 { background: linear-gradient(135deg,#e91e8c,#ff6fb7); }
+.lv2 { background: linear-gradient(135deg,#f7971e,#ffd200); }
+.lv3 { background: linear-gradient(135deg,#8250ff,#10b981); }
+.level-icon { font-size: 1.6rem; }
+.level-title { font-size: 1rem; font-weight: 900; color: white; }
+.level-sub   { font-size: 0.75rem; color: rgba(255,255,255,0.8); margin-top: 2px; }
+.answers-list { background: white; border-radius: 0 0 16px 16px; border: 1.5px solid #fce4ec; border-top: none; overflow: hidden; }
+.answer-item { display: flex; gap: 12px; align-items: flex-start; padding: 13px 16px; border-bottom: 1px solid #f3f0fb; }
+.answer-item:last-child { border-bottom: none; }
+.ans-num { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 900; color: white; margin-top: 1px; }
+.lv1 .ans-num { background: linear-gradient(135deg,#e91e8c,#ff6fb7); }
+.lv2 .ans-num { background: linear-gradient(135deg,#f7971e,#ffd200); color: #333; }
+.lv3 .ans-num { background: linear-gradient(135deg,#8250ff,#10b981); }
+.ans-body { flex: 1; }
+/* Hero for gabarito */
+.hero { background: linear-gradient(145deg,#1e0a3c,#1a0533,#0a2d40); padding: 30px 20px 22px; text-align: center; }
+.hero-icon { font-size: 2.8rem; display: block; margin-bottom: 10px; }
+.hero h1 { font-size: 1.5rem; font-weight: 900; color: white; }
+.hero p  { font-size: 0.88rem; color: rgba(255,255,255,0.6); margin-top: 6px; }
+.hero-pill { display: inline-block; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); font-size: 0.72rem; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-top: 12px; }
+.wrap { padding: 16px 14px 0; max-width: 480px; margin: 0 auto; }
+@media print {
+  .top-nav,.print-btn-wrap,.score-bar,.hud,.progress-wrap,.finish-btn,.result-panel,#resultPanel,.gabarito-toggle,.bottom-nav,.bg-glow { display: none !important; }
+  html, body { background: white !important; color: #111 !important; }
+  body * { background-color: transparent !important; background-image: none !important; color: #111 !important; box-shadow: none !important; }
+  .exam-header { display: block !important; border: 2px solid #555 !important; }
+  .eh-field input { border-bottom: 1.5px solid #555 !important; color: #111 !important; }
+  .card { border: 1px solid #ccc !important; break-inside: avoid !important; page-break-inside: avoid !important; }
+  .opt-btn { border: 1.5px solid #bbb !important; color: #222 !important; background: white !important; margin-bottom: 4px !important; }
+  .opt-btn.correct, .opt-btn.wrong { background: white !important; border-color: #bbb !important; }
+  .feedback { display: none !important; }
+  .blank-input { border: none !important; border-bottom: 1.5px solid #555 !important; border-radius: 0 !important; color: #111 !important; background: transparent !important; }
+  .q-hint { border: 1px solid #ddd !important; background: #f9f9f9 !important; color: #444 !important; }
+  .word-pool { display: none !important; }
+  .sentence-box { border: 1px solid #bbb !important; min-height: 36px !important; }
+  .placed-chip { display: none !important; }
+  .header { background: #880e4f !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .level-header { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  .lv1 { background: linear-gradient(135deg,#e91e8c,#ff6fb7) !important; }
+  .lv2 { background: linear-gradient(135deg,#f7971e,#ffd200) !important; }
+  .lv3 { background: linear-gradient(135deg,#8250ff,#10b981) !important; }
+  .credit { color: #888 !important; }
+  @page { margin: 1.5cm; size: A4; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="top-nav">
+  <a href="index.html" class="nav-home">🏠 Início</a>
+  <span class="nav-title">⭐ Nível 1 — Básico</span>
+  <div style="width:70px;"></div>
+</div>
+<div class="exam-header">
+  <div class="eh-title">📝 Preencha antes de começar</div>
+  <div class="eh-grid">
+    <div class="eh-field"><label>Nome</label><input type="text" id="f-nome" placeholder="Seu nome aqui"></div>
+    <div class="eh-field"><label>Data</label><input type="date" id="f-data"></div>
+    <div class="eh-field"><label>Turma</label><input type="text" id="f-turma" placeholder="Ex: 4º A"></div>
+    <div class="eh-field"><label>Nota</label><div class="eh-nota">Será preenchida</div></div>
+  </div>
+</div>
+<div class="print-btn-wrap"><button class="print-btn" onclick="window.print()">🖨️ Imprimir Avaliação</button></div>
+<div class="header">
+  <div class="stars">🛒⭐🍎</div>
+  <h1>Nível 1 – Básico</h1>
+  <p>Unit 2 · At the Supermarket</p>
+</div>
+<div class="wrap">
+<div class="score-bar">
+  <span class="score-label">Pontos 🌟</span>
+  <span class="score-num" id="scoreDisplay">0 / 8</span>
+</div>
+
+<div class="card" id="q1">
+  <div class="q-num">1</div>
+  <div class="q-type">Vocabulário</div>
+  <span class="q-emoji">🍎</span>
+  <div class="q-text">O que significa <strong>"apple"</strong> em português?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q1" data-correct="false" data-msg="Laranja = orange 🍊" data-tip="💡 Sacada: Apple = maçã! Pensa: A de Apple, A de Árvore de maçã!">🍊 Laranja</button>
+    <button class="opt-btn" data-q="q1" data-correct="true"  data-msg="Muito bem! Apple = maçã 🍎">🍎 Maçã</button>
+    <button class="opt-btn" data-q="q1" data-correct="false" data-msg="Banana = banana 🍌" data-tip="💡 Sacada: Banana em inglês é igual! Mas aqui a gente queria apple = maçã 🍎">🍌 Banana</button>
+    <button class="opt-btn" data-q="q1" data-correct="false" data-msg="Uva = grapes 🍇" data-tip="💡 Sacada: Grapes = uva. Apple = maçã. São frutas diferentes!">🍇 Uva</button>
+  </div>
+  <div class="feedback" id="fb-q1"></div>
+</div>
+
+<div class="card" id="q2">
+  <div class="q-num">2</div>
+  <div class="q-type">Vocabulário</div>
+  <span class="q-emoji">🥛</span>
+  <div class="q-text">O que é <strong>"milk"</strong>?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q2" data-correct="false" data-msg="Água = water 💧" data-tip="💡 Sacada: Water = água. Milk = leite. Lembra: milk vem das vacas 🐄">💧 Água</button>
+    <button class="opt-btn" data-q="q2" data-correct="false" data-msg="Suco = juice 🧃" data-tip="💡 Sacada: Juice = suco. Milk = leite. Milk fica na seção Dairy do mercado!">🧃 Suco</button>
+    <button class="opt-btn" data-q="q2" data-correct="true"  data-msg="Arrasou! Milk = leite 🥛">🥛 Leite</button>
+    <button class="opt-btn" data-q="q2" data-correct="false" data-msg="Queijo = cheese 🧀" data-tip="💡 Sacada: Cheese = queijo, milk = leite. Os dois são laticínios mas são coisas diferentes!">🧀 Queijo</button>
+  </div>
+  <div class="feedback" id="fb-q2"></div>
+</div>
+
+<div class="card" id="q3">
+  <div class="q-num">3</div>
+  <div class="q-type">Vocabulário</div>
+  <span class="q-emoji">🥦</span>
+  <div class="q-text">O que significa <strong>"vegetables"</strong>?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q3" data-correct="false" data-msg="Frutas = fruits 🍓" data-tip="💡 Sacada: Fruits = frutas. Vegetables = legumes e verduras. Cenoura e brócolis são vegetables!">🍓 Frutas</button>
+    <button class="opt-btn" data-q="q3" data-correct="true"  data-msg="Isso mesmo! Vegetables = legumes e verduras 🥦">🥦 Legumes/Verduras</button>
+    <button class="opt-btn" data-q="q3" data-correct="false" data-msg="Doces = candies 🍬" data-tip="💡 Sacada: Candies = doces/balas. Vegetables = legumes. São bem diferentes né!">🍬 Doces</button>
+    <button class="opt-btn" data-q="q3" data-correct="false" data-msg="Pão = bread 🍞" data-tip="💡 Sacada: Bread = pão. Vegetables = legumes. Cenoura, brócolis e tomate são vegetables!">🍞 Pão</button>
+  </div>
+  <div class="feedback" id="fb-q3"></div>
+</div>
+
+<div class="card" id="q4">
+  <div class="q-num">4</div>
+  <div class="q-type">Saudável ou não?</div>
+  <span class="q-emoji">🍕</span>
+  <div class="q-text">Pizza é <strong>healthy</strong> (saudável) ou <strong>unhealthy</strong> (não saudável)?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q4" data-correct="false" data-msg="Pizza não é saudável. É deliciosa, mas deve ser comida de vez em quando! 🍕">✅ Healthy (Saudável)</button>
+    <button class="opt-btn" data-q="q4" data-correct="true"  data-msg="Exato! Pizza é unhealthy food. Deve ser comida com moderação! 🍕">❌ Unhealthy (Não saudável)</button>
+  </div>
+  <div class="feedback" id="fb-q4"></div>
+</div>
+
+<div class="card" id="q5">
+  <div class="q-num">5</div>
+  <div class="q-type">Saudável ou não?</div>
+  <span class="q-emoji">🥕</span>
+  <div class="q-text">Cenoura (carrot) é <strong>healthy</strong> ou <strong>unhealthy</strong>?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q5" data-correct="true"  data-msg="Perfeito! Cenoura é healthy food — faz bem para os olhos! 🥕👁️">✅ Healthy (Saudável)</button>
+    <button class="opt-btn" data-q="q5" data-correct="false" data-msg="Não! Cenoura é saudável sim! Ela ajuda seus olhos a enxergar melhor 🥕">❌ Unhealthy (Não saudável)</button>
+  </div>
+  <div class="feedback" id="fb-q5"></div>
+</div>
+
+<div class="card" id="q6">
+  <div class="q-num">6</div>
+  <div class="q-type">There is / There are</div>
+  <span class="q-emoji">🍌</span>
+  <div class="q-text">Quando existe <strong>UMA</strong> banana, você usa:</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q6" data-correct="true"  data-msg="Correto! THERE IS para uma coisa só. Ex: There is one banana. 🍌">There <strong>IS</strong> one banana</button>
+    <button class="opt-btn" data-q="q6" data-correct="false" data-msg="THERE ARE é para mais de uma coisa. Ex: There are five bananas. 🍌🍌" data-tip="💡 Sacada: ONE banana (uma) = THERE IS. FIVE bananas (cinco) = THERE ARE. Conta os objetos!">There <strong>ARE</strong> one banana</button>
+  </div>
+  <div class="feedback" id="fb-q6"></div>
+</div>
+
+<div class="card" id="q7">
+  <div class="q-num">7</div>
+  <div class="q-type">There is / There are</div>
+  <span class="q-emoji">🍅</span>
+  <div class="q-text">Complete a frase: <br><em>"_____ three tomatoes on the table."</em></div>
+  <div class="options">
+    <button class="opt-btn" data-q="q7" data-correct="false" data-msg="THERE IS é para uma coisa só. Aqui temos 3 tomates! 🍅🍅🍅" data-tip="💡 Sacada: Three = três = mais de um = THERE ARE! Sempre olha o número antes de responder!">There <strong>IS</strong></button>
+    <button class="opt-btn" data-q="q7" data-correct="true"  data-msg="Ótimo! Three = mais de um, então usamos THERE ARE 🍅🍅🍅">There <strong>ARE</strong></button>
+  </div>
+  <div class="feedback" id="fb-q7"></div>
+</div>
+
+<div class="card" id="q8">
+  <div class="q-num">8</div>
+  <div class="q-type">Gosto pessoal</div>
+  <span class="q-emoji">😊</span>
+  <div class="q-text">Como dizer em inglês: <strong>"Eu gosto de maçã"</strong>?</div>
+  <div class="options">
+    <button class="opt-btn" data-q="q8" data-correct="false" data-msg="I don't like significa EU NAO GOSTO. 🙁" data-tip="💡 Sacada: I like = eu gosto · I don't like = eu NÃO gosto. O don't vira o significado!">I <strong>don't like</strong> apple.</button>
+    <button class="opt-btn" data-q="q8" data-correct="true"  data-msg="Perfeito! I LIKE = eu gosto. 😄">I <strong>like</strong> apple.</button>
+    <button class="opt-btn" data-q="q8" data-correct="false" data-msg="Do you like é uma pergunta: Você gosta? ❓" data-tip="💡 Sacada: Do you like? = pergunta. I like = afirmação. São formas diferentes!">Do you like apple?</button>
+  </div>
+  <div class="feedback" id="fb-q8"></div>
+</div>
+
+<button class="finish-btn" id="finishBtn">Ver meu resultado 🎉</button>
+
+<div class="result-panel" id="resultPanel">
+  <div class="result-big" id="resultEmoji">🎉</div>
+  <div class="result-grade" id="resultGrade"></div>
+  <div class="result-grade-label" id="resultGradeLabel"></div>
+  <div class="result-msg" id="resultMsg"></div>
+  <div class="result-score" id="resultScore"></div>
+  <div class="result-actions">
+    <button class="retry-btn" onclick="location.reload()">Tentar de novo 🔄</button>
+    <a href="gabarito.html" class="gabarito-link">📋 Ver Gabarito</a>
+  </div>
+</div>
+
+</div>
+
+<script>
+var score = 0;
+var answered = {};
+
+document.querySelectorAll('.opt-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var qid = btn.dataset.q;
+    if (answered[qid]) return;
+    answered[qid] = true;
+    var correct = btn.dataset.correct === 'true';
+    var msg = btn.dataset.msg;
+    var tip = btn.dataset.tip || '';
+    var card = document.getElementById(qid);
+    card.querySelectorAll('.opt-btn').forEach(function(b) { b.classList.add('disabled'); });
+    var fb = document.getElementById('fb-' + qid);
+    if (correct) {
+      btn.classList.add('correct');
+      score++;
+      document.getElementById('scoreDisplay').textContent = score + ' / 8';
+      fb.innerHTML = '<span style="font-weight:800;">✅ ' + msg + '</span>';
+      fb.className = 'feedback show ok';
+    } else {
+      btn.classList.add('wrong');
+      fb.innerHTML = '<span style="font-weight:800;display:block;margin-bottom:4px;">❌ ' + msg + '</span>' +
+                     (tip ? '<span style="font-size:0.83rem;opacity:0.85;">' + tip + '</span>' : '');
+      fb.className = 'feedback show nok';
+    }
+  });
+});
+
+document.getElementById('finishBtn').addEventListener('click', function() {
+  var panel = document.getElementById('resultPanel');
+  panel.classList.add('show');
+  var nota = Math.round((score / 8) * 100);
+  var emoji, msg, gradeLabel;
+  if (nota === 100)      { emoji = '🏆'; msg = 'Incrível! Nota máxima! Você é uma superestrela! 🌟'; gradeLabel = 'PERFEITO!'; }
+  else if (nota >= 90)   { emoji = '🎉'; msg = 'Arrasou! Quase perfeito, continue assim! 💪'; gradeLabel = 'EXCELENTE!'; }
+  else if (nota >= 75)   { emoji = '😄'; msg = 'Muito bem! Você está quase expert! 🛒'; gradeLabel = 'MUITO BOM!'; }
+  else if (nota >= 60)   { emoji = '😊'; msg = 'Bom trabalho! Revise as dicas e tente de novo!'; gradeLabel = 'BOM!'; }
+  else if (nota >= 40)   { emoji = '💪'; msg = 'Continue tentando! Estude o resumo e vai arrasar!'; gradeLabel = 'PODE MAIS!'; }
+  else                    { emoji = '📚'; msg = 'Não desista! Leia o resumo e tente novamente! 💛'; gradeLabel = 'ESTUDE MAIS!'; }
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultGrade').textContent = nota + '%';
+  document.getElementById('resultGradeLabel').textContent = gradeLabel;
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultScore').textContent = 'Você acertou ' + score + ' de 8 questões.';
+  panel.scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+
+
+
+<div class="bottom-nav">
+  <a href="resumo_conteudo.html" class="btn-prev">← 📚 Resumo</a>
+  <a href="index.html" class="btn-home-only" style="flex:0.6;">🏠</a>
+  <a href="nivel2_intermediario.html" class="btn-next">🔥 Nível 2 →</a>
+</div>
+
+<div class="credit">Desenvolvido por <strong>Jhony Beraldo</strong></div>
+
+
+</body>
+</html>
